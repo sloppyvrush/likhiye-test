@@ -82,7 +82,8 @@ ru:{
     sofa:'Честерфилд, кожа, Англия. Привезли через порт. Как именно, лучше не спрашивать.',
     phone:'Радиотелефон «Панасоник». Звонит по ночам, и он всегда берёт трубку.',
     turntable:'Проигрыватель. Пластинки ставит сам, тётю Зину к нему не подпускает.',
-    portrait:'Его портрет. Говорит, что повесил ради интерьера.'
+    portrait:'Его портрет. Говорит, что повесил ради интерьера.',
+    pouf:'Пуф и колода карт. Казино «Белые ночи» он, между прочим, выиграл в преферанс.'
   }
 },
 en:{
@@ -156,7 +157,8 @@ en:{
     sofa:'A Chesterfield, leather, England. Came in through the port. Better not ask how.',
     phone:'A Panasonic cordless. It rings at night, and he always picks up.',
     turntable:'The record player. He puts the records on himself and won’t let Aunt Zina near it.',
-    portrait:'His portrait. He says he hung it for the interior.'
+    portrait:'His portrait. He says he hung it for the interior.',
+    pouf:'A pouffe and a deck of cards. He won the White Nights casino at preference, by the way.'
   }
 }
 };

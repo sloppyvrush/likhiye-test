@@ -26,7 +26,6 @@
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%; text-size-adjust:100%}
 body{margin:0; background:var(--bg); color:var(--cream); font:500 19px/1.5 var(--serif); overflow-x:hidden}
-body.sheet-on{overflow:hidden}
 img{display:block; max-width:100%}
 a{color:inherit}
 button{font:inherit; color:inherit; -webkit-tap-highlight-color:transparent; touch-action:manipulation}
@@ -49,7 +48,6 @@ svg [tabindex]:focus-visible{outline:2px dashed var(--brass-hi)}
 .bar .short{display:none}
 
 /* ---------- гостиная ---------- */
-.intro{text-align:center; padding:22px 18px 14px}
 .intro h1{margin:0; font:400 clamp(34px,5vw,62px)/1.05 var(--deco); letter-spacing:.12em; color:var(--brass-hi); text-shadow:0 0 30px rgba(201,162,76,.25)}
 .intro .where{margin:6px 0 0; font:13px/1.3 var(--mono); letter-spacing:.18em; text-transform:uppercase; color:#9c9070}
 .intro .hint{margin:10px auto 0; max-width:60ch; font-style:italic; color:var(--cream-2)}
@@ -57,7 +55,7 @@ svg [tabindex]:focus-visible{outline:2px dashed var(--brass-hi)}
   linear-gradient(var(--brass),var(--brass)) center/100% 1px no-repeat,
   radial-gradient(circle, var(--brass) 0 3px, transparent 4px) center/14px 14px no-repeat}
 .scene-wrap{position:relative; width:100%; overflow-x:auto; overflow-y:hidden; scrollbar-width:thin; -webkit-overflow-scrolling:touch}
-.scene{position:relative; width:100%; min-width:860px; aspect-ratio:16/9; max-height:calc(100svh - 70px); margin:0 auto}
+.scene{position:relative; width:100%; min-width:860px; aspect-ratio:16/9; margin:0 auto}
 .scene svg{position:absolute; inset:0; width:100%; height:100%; display:block}
 .pan-hint{display:none; text-align:center; font:16px var(--hand); color:#cdbf98; padding:8px 0 0}
 .tag{position:absolute; z-index:3; transform:translate(-50%,-50%); display:flex; align-items:center; gap:8px; padding:6px 12px 7px 9px; border:1px solid #8a6a2c; border-radius:2px; cursor:pointer;
@@ -81,10 +79,6 @@ svg [tabindex]:focus-visible{outline:2px dashed var(--brass-hi)}
 @keyframes ripple{from{transform:translateX(-6px)}to{transform:translateX(6px)}}
 .ship{animation:ship 90s linear infinite}
 @keyframes ship{from{transform:translateX(-80px)}to{transform:translateX(160px)}}
-.daisy-tail{transform-box:fill-box; transform-origin:0% 30%; animation:wag 5s ease-in-out infinite}
-@keyframes wag{0%,80%,100%{transform:rotate(0)}86%{transform:rotate(-12deg)}92%{transform:rotate(6deg)}}
-.daisy-head{transform-box:fill-box; transform-origin:85% 70%; transition:transform .5s}
-.daisy.up .daisy-head{transform:rotate(-10deg)}
 .egg{cursor:pointer}
 .egg:hover{filter:brightness(1.2)}
 #arm{transform-box:view-box; transform-origin:316px 470px; transition:transform 1.2s ease}
@@ -102,7 +96,7 @@ svg [tabindex]:focus-visible{outline:2px dashed var(--brass-hi)}
 .zina.on{opacity:1; transform:translate(-50%,0)}
 
 /* карточки разделов под сценой */
-.rooms{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px; width:min(1240px, calc(100vw - 32px)); margin:26px auto 0}
+.rooms{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px}
 .room-card{position:relative; text-align:left; padding:18px 18px 20px; border:1px solid #4d3f1e; background:linear-gradient(160deg,#16251f,#0e1714); cursor:pointer; transition:transform .25s, border-color .25s}
 .room-card::before{content:""; position:absolute; inset:5px; border:1px solid rgba(201,162,76,.22); pointer-events:none}
 .room-card:hover{transform:translateY(-3px); border-color:var(--brass)}
@@ -113,14 +107,13 @@ footer{text-align:center; padding:40px 18px calc(30px + env(safe-area-inset-bott
 footer a{color:#cdbf98}
 
 /* ---------- листы-разделы ---------- */
-.sheet{position:fixed; inset:0; z-index:40; display:none; overflow-y:auto; -webkit-overflow-scrolling:touch; background:rgba(4,8,7,.86); backdrop-filter:blur(3px)}
-.sheet.on{display:block; animation:sheetIn .35s ease}
-@keyframes sheetIn{from{opacity:0}to{opacity:1}}
-.sheet .inner{position:relative; width:min(1120px, calc(100vw - 24px)); margin:max(64px, 6vh) auto 40px; animation:rise .45s cubic-bezier(.2,.8,.2,1)}
-@keyframes rise{from{transform:translateY(24px); opacity:0}to{transform:none; opacity:1}}
-.sheet .close{position:fixed; top:max(12px, env(safe-area-inset-top)); right:max(12px, env(safe-area-inset-right)); z-index:45; display:inline-block; padding:8px 14px; background:#120c08; border:1px solid #8a6a2c; color:var(--brass-hi); font:400 17px var(--deco); letter-spacing:.06em; cursor:pointer}
-.sheet h2{margin:0; font:400 clamp(30px,4vw,48px)/1.1 var(--deco); letter-spacing:.1em; color:var(--brass-hi)}
-.sheet .sub{margin:6px 0 22px; font-style:italic; color:var(--cream-2); max-width:70ch}
+.blocks{padding-bottom:10px}
+.block{width:min(1120px, calc(100vw - 24px)); margin:70px auto 0; scroll-margin-top:76px}
+.block h2{margin:0; font:400 clamp(30px,4vw,48px)/1.1 var(--deco); letter-spacing:.1em; color:var(--brass-hi)}
+.block .sub{margin:6px 0 22px; font-style:italic; color:var(--cream-2); max-width:70ch}
+.block.intro{margin-top:34px; text-align:center}
+.block.intro .rooms{margin-top:26px; width:auto}
+.scene-wrap{scroll-margin-top:58px}
 
 /* пластинки */
 .shelf{padding:28px clamp(14px,3vw,34px) 34px; background:linear-gradient(#1d120b,#120a06); border:1px solid #3d2a15; box-shadow:inset 0 0 50px rgba(0,0,0,.6)}
@@ -215,7 +208,7 @@ html[lang="en"] .rec.secret .sl::after{content:"DO NOT TOUCH"}
   .bar{gap:10px; padding:0 8px}
   .bar .brand{display:none}
   .bar nav{margin:0 auto}
-  .bar nav a{padding:6px 7px; font-size:15px}
+  .bar nav a{padding:6px 5px; font-size:14px; letter-spacing:.02em}
   .bar .long{display:none} .bar .short{display:inline}
   .pan-hint{display:block}
   .scene{max-height:none; height:min(64svh, 520px); width:auto; aspect-ratio:16/9}
@@ -241,13 +234,6 @@ html[lang="en"] .rec.secret .sl::after{content:"DO NOT TOUCH"}
   <a class="sw" href="index.html" id="backSw"><span class="long"></span><span class="short"></span></a>
   <a class="sw" href="oleg.en.html" id="langSw"></a>
 </header>
-
-<div class="intro">
-  <h1 id="title"></h1>
-  <p class="where" id="where"></p>
-  <span class="deco-rule" aria-hidden="true"></span>
-  <p class="hint" id="hint"></p>
-</div>
 
 <div class="scene-wrap" id="sceneWrap">
  <div class="scene" id="scene">
@@ -459,33 +445,15 @@ html[lang="en"] .rec.secret .sl::after{content:"DO NOT TOUCH"}
       <g id="decanters"></g>
     </g>
 
-    <!-- Дейзи на ковре -->
-    <g class="egg daisy" data-egg="daisy" role="button" tabindex="0" aria-label="Дейзи" transform="translate(600 812) scale(1.15)">
-      <ellipse cx="10" cy="34" rx="200" ry="14" fill="#000" opacity=".35" filter="url(#soft3)"/>
-      <path class="daisy-tail" d="M150 6q40 8 56 26q-24 4 -40 -4q-10 -6 -16 -14z" fill="#efe6d4"/>
-      <path d="M150 10q38 10 50 22" stroke="#d8c7a8" stroke-width="2" fill="none"/>
-      <!-- тело -->
-      <path d="M-62 -44c18-14 70-18 112-12c30 4 56 -2 86 4c22 4 34 24 32 44c-2 18 -18 30 -40 32h-120c-26 0 -54 -2 -72 -12c-18 -10 -22 -40 2 -56z" fill="#f1e8d6"/>
-      <path d="M10 -52c30 -2 52 2 80 2c20 0 36 6 44 20c-30 -8 -70 -6 -104 -10c-12 -2 -20 -6 -20 -12z" fill="#c9944f" opacity=".85"/>
-      <path d="M120 -10c18 0 32 12 30 30c-14 10 -40 8 -52 -4c-6 -14 6 -26 22 -26z" fill="#c9944f" opacity=".75"/>
-      <!-- задняя лапа -->
-      <path d="M100 18c-10 12 -40 16 -70 14" stroke="#e6dcc6" stroke-width="12" stroke-linecap="round" fill="none"/>
-      <!-- передние лапы вытянуты -->
-      <path d="M-50 14c-40 6 -90 8 -130 10" stroke="#f1e8d6" stroke-width="11" stroke-linecap="round" fill="none"/>
-      <path d="M-40 22c-40 4 -86 6 -122 10" stroke="#e8dec9" stroke-width="10" stroke-linecap="round" fill="none"/>
-      <!-- шея и голова -->
-      <g class="daisy-head">
-        <path d="M-60 -40c-10 -22 -22 -40 -40 -48c-14 -4 -24 4 -22 14c4 18 22 30 36 46z" fill="#f1e8d6"/>
-        <path d="M-118 -78c-20 2 -52 18 -70 30c-6 6 -2 12 6 12c26 -2 54 -10 76 -20c8 -4 10 -16 -12 -22z" fill="#f1e8d6"/>
-        <path d="M-186 -38c4 2 8 0 8 -4" stroke="#2a1d12" stroke-width="3" fill="none" stroke-linecap="round"/>
-        <circle cx="-186" cy="-40" r="3.2" fill="#1a1410"/>
-        <path d="M-108 -82c-2 -8 8 -14 18 -10c8 4 6 14 -2 16z" fill="#c9944f"/>
-        <path d="M-128 -66q4 -3 8 0" stroke="#2a1d12" stroke-width="2.4" fill="none" stroke-linecap="round"/>
-        <path d="M-176 -36q36 -4 66 -22" stroke="#d8c7a8" stroke-width="1.6" fill="none"/>
-      </g>
-      <!-- ошейник -->
-      <path d="M-82 -58q10 14 26 18" stroke="#7a1c22" stroke-width="5" fill="none"/>
-      <circle cx="-66" cy="-44" r="3" fill="#c9a24c"/>
+    <!-- пуф с колодой карт -->
+    <g class="egg" data-egg="pouf" role="button" tabindex="0" aria-label="Пуф">
+      <ellipse cx="610" cy="850" rx="120" ry="16" fill="#000" opacity=".5" filter="url(#soft)"/>
+      <path d="M510 790v48q100 26 200 0v-48z" fill="url(#leather)"/>
+      <ellipse cx="610" cy="790" rx="100" ry="22" fill="#7a2228"/>
+      <g fill="#2a080b"><circle cx="570" cy="786" r="2.4"/><circle cx="610" cy="780" r="2.4"/><circle cx="650" cy="786" r="2.4"/><circle cx="590" cy="796" r="2.4"/><circle cx="630" cy="796" r="2.4"/></g>
+      <path d="M512 812q98 22 196 0" stroke="#3a0b0f" stroke-width="2" fill="none"/>
+      <g transform="rotate(-8 600 784)"><rect x="586" y="774" width="30" height="20" rx="2" fill="#f4efe2"/><rect x="589" y="777" width="24" height="14" rx="1" fill="none" stroke="#a8261f" stroke-width="1.2"/></g>
+      <g transform="rotate(14 630 788)"><rect x="616" y="778" width="30" height="20" rx="2" fill="#f4efe2"/><text x="631" y="792" text-anchor="middle" font-family="PT Serif" font-size="10" fill="#a8261f">♥</text></g>
     </g>
 
     <!-- светлые пятна и виньетка -->
@@ -498,30 +466,32 @@ html[lang="en"] .rec.secret .sl::after{content:"DO NOT TOUCH"}
 </div>
 <p class="pan-hint" id="panHint"></p>
 
-<section class="rooms" id="rooms"></section>
+<main class="blocks">
+  <section class="block intro" id="about">
+    <h1 id="title"></h1>
+    <p class="where" id="where"></p>
+    <span class="deco-rule" aria-hidden="true"></span>
+    <p class="hint" id="hint"></p>
+    <div class="rooms" id="rooms"></div>
+  </section>
+  <section class="block" id="records" aria-labelledby="hRec">
+    <div class="shelf"><h2 id="hRec"></h2><p class="sub" id="subRec"></p><div class="recs" id="recs"></div></div>
+  </section>
+  <section class="block" id="book" aria-labelledby="hBook">
+    <h2 id="hBook"></h2><p class="sub" id="subBook"></p>
+    <div class="book"><div class="tabs" role="tablist" id="bookTabs"></div><div class="page" id="bookPage" role="tabpanel"></div></div>
+  </section>
+  <section class="block" id="album" aria-labelledby="hAlbum">
+    <h2 id="hAlbum"></h2><p class="sub" id="subAlbum"></p>
+    <div class="album"><div class="spread" id="spread"></div></div>
+    <div class="apager"><button type="button" id="aPrev"></button><span id="aNum"></span><button type="button" id="aNext"></button></div>
+  </section>
+  <section class="block" id="dossier-sec">
+    <div class="dossier" id="dossier"></div>
+  </section>
+</main>
 
 <footer><span id="foot"></span></footer>
-
-<!-- листы-разделы -->
-<div class="sheet" id="sh-records" role="dialog" aria-modal="true" aria-labelledby="hRec"><div class="inner">
-  <button class="close" type="button" data-close></button>
-  <div class="shelf"><h2 id="hRec"></h2><p class="sub" id="subRec"></p><div class="recs" id="recs"></div></div>
-</div></div>
-<div class="sheet" id="sh-book" role="dialog" aria-modal="true" aria-labelledby="hBook"><div class="inner">
-  <button class="close" type="button" data-close></button>
-  <h2 id="hBook"></h2><p class="sub" id="subBook"></p>
-  <div class="book"><div class="tabs" role="tablist" id="bookTabs"></div><div class="page" id="bookPage" role="tabpanel"></div></div>
-</div></div>
-<div class="sheet" id="sh-album" role="dialog" aria-modal="true" aria-labelledby="hAlbum"><div class="inner">
-  <button class="close" type="button" data-close></button>
-  <h2 id="hAlbum"></h2><p class="sub" id="subAlbum"></p>
-  <div class="album"><div class="spread" id="spread"></div></div>
-  <div class="apager"><button type="button" id="aPrev"></button><span id="aNum"></span><button type="button" id="aNext"></button></div>
-</div></div>
-<div class="sheet" id="sh-dossier" role="dialog" aria-modal="true" aria-labelledby="hDos"><div class="inner">
-  <button class="close" type="button" data-close></button>
-  <div class="dossier" id="dossier"></div>
-</div></div>
 
 <script src="oleg.data.js"></script>
 <script>
@@ -544,9 +514,8 @@ $('#panHint').textContent = LANG === 'en' ? '← swipe the room sideways →' : 
 $('#foot').innerHTML = (LANG === 'en' ? 'Likhiye · Oleg Barinov · the bot is in the works' : 'Лихие · Олег Баринов · бот в работе') + ` · <a href="${HALL}">${D.nav.back}</a>`;
 const routes = ['room', 'records', 'book', 'album', 'dossier'];
 const SHORT = LANG === 'en' ? {room:'Room', records:'Records', book:'Book', album:'Album', dossier:'File'} : {room:'Комната', records:'Пластинки', book:'Книжка', album:'Альбом', dossier:'Досье'};
-$('#nav').innerHTML = routes.map(r => `<a href="#/${r === 'room' ? '' : r}" data-r="${r}"><span class="long">${D.nav[r]}</span><span class="short">${SHORT[r]}</span></a>`).join('');
+$('#nav').innerHTML = routes.map(r => `<a href="#${r}" data-r="${r}"><span class="long">${D.nav[r]}</span><span class="short">${SHORT[r]}</span></a>`).join('');
 $('#rooms').innerHTML = D.cards.map(([r, h, p]) => `<button class="room-card" type="button" data-go="${r}"><i>→</i><b>${h}</b><span>${p}</span></button>`).join('');
-document.querySelectorAll('[data-close]').forEach(b => b.textContent = D.nav.close);
 
 /* ---------- сцена: генерируемые детали ---------- */
 (() => { const g = $('#stripes'); for (let x = 60; x < 1600; x += 120){ S('rect', {x, y:52, width:2, height:640, fill:'#c9a24c', opacity:.22}, g); S('rect', {x:x + 8, y:52, width:1, height:640, fill:'#c9a24c', opacity:.12}, g); } })();
@@ -616,7 +585,6 @@ document.querySelectorAll('#room .egg').forEach(el => {
   const fire = e => {
     e.stopPropagation();
     const k = el.dataset.egg;
-    if (k === 'daisy'){ el.classList.add('up'); setTimeout(() => el.classList.remove('up'), 1600); }
     if (el.dataset.open){ caption(el, D.eggs[k] || D.tags[el.dataset.open] || ''); setTimeout(() => go(el.dataset.open), 700); return; }
     caption(el, D.eggs[k]);
   };
@@ -696,22 +664,16 @@ $('#dossier').innerHTML = `<h2 id="hDos">${D.dossierH}</h2><p class="sub">${esc(
   <p class="soon">${esc(D.startsNote)}</p>`;
 if (LANG === 'en') document.querySelectorAll('.quotes li').forEach(li => li.textContent = li.textContent.replace(/^«/, '“').replace(/»$/, '”'));
 
-/* ---------- маршруты ---------- */
-function go(r){ location.hash = r === 'room' ? '#/' : '#/' + r; }
+/* ---------- навигация: всё на одной странице, меню прокручивает ---------- */
+const target = r => document.getElementById(r === 'room' ? 'sceneWrap' : r === 'dossier' ? 'dossier-sec' : r);
+function go(r){ hideCaps(); target(r).scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'start'}); history.replaceState(null, '', r === 'room' ? location.pathname : '#' + r); }
 document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => go(b.dataset.go)));
-document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => go('room')));
-document.querySelectorAll('.sheet').forEach(s => s.addEventListener('click', e => { if (e.target === s) go('room'); }));
-addEventListener('keydown', e => { if (e.key === 'Escape' && document.querySelector('.sheet.on')) go('room'); });
-function route(){
-  const r = (location.hash.replace(/^#\/?/, '') || 'room');
-  const cur = routes.includes(r) ? r : 'room';
-  document.querySelectorAll('.sheet').forEach(s => s.classList.toggle('on', s.id === 'sh-' + cur));
-  document.body.classList.toggle('sheet-on', cur !== 'room');
-  document.querySelectorAll('#nav a').forEach(a => { if (a.dataset.r === cur) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
-  hideCaps();
-  const sh = document.getElementById('sh-' + cur); if (sh){ sh.scrollTop = 0; sh.querySelector('.close').focus({preventScroll:true}); }
-}
-addEventListener('hashchange', route); route();
+document.querySelectorAll('#nav a').forEach(a => a.addEventListener('click', e => { e.preventDefault(); go(a.dataset.r); }));
+const mark = r => document.querySelectorAll('#nav a').forEach(a => { if (a.dataset.r === r) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+const io = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) mark(e.target.dataset.sec); }); }, {rootMargin:'-45% 0px -50% 0px'});
+routes.forEach(r => { const el = target(r); el.dataset.sec = r; io.observe(el); });
+mark('room');
+const h0 = location.hash.replace(/^#\/?/, ''); if (routes.includes(h0)) setTimeout(() => go(h0), 80);
 
 /* ---------- вход из подъезда: тётя Зина встречает ---------- */
 const fromDoor = /[?&]door\b/.test(location.search);
