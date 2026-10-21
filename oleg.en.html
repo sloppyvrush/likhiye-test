@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0c1513">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<title>Barinov’s flat · Likhiye · TEST</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Poiret+One&family=PT+Mono&family=Ruslan+Display&display=swap" rel="stylesheet">
+<style>
+/* КВАРТИРА БАРИНОВА: пентхаус на Васильевском. Нарочно не как у Вити:
+   тёмно-изумрудный лак, латунь, ар-деко, джаз и окна на порт. */
+:root{
+  --bg:#0c1513; --bg2:#13211e; --emer:#17332d; --brass:#c9a24c; --brass-hi:#f1d88e; --cream:#efe3c6; --cream-2:#d9c9a0;
+  --wine:#5a1018; --ink:#1d1712; --lamp:#ffcf87;
+  --deco:'Poiret One','Cormorant Garamond',serif;
+  --serif:'Cormorant Garamond','PT Serif',Georgia,serif;
+  --hand:'Caveat','Neucha',cursive;
+  --mono:'PT Mono',ui-monospace,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%; text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--cream); font:500 19px/1.5 var(--serif); overflow-x:hidden}
+body.sheet-on{overflow:hidden}
+img{display:block; max-width:100%}
+a{color:inherit}
+button{font:inherit; color:inherit; -webkit-tap-highlight-color:transparent; touch-action:manipulation}
+:focus-visible{outline:2px solid var(--brass-hi); outline-offset:3px}
+svg [tabindex]:focus{outline:none}
+svg [tabindex]:focus-visible{outline:2px dashed var(--brass-hi)}
+
+/* ---------- шапка ---------- */
+.bar{position:sticky; top:0; z-index:30; display:flex; align-items:center; gap:18px; padding:0 max(16px, env(safe-area-inset-right)) 0 max(16px, env(safe-area-inset-left)); height:58px;
+  background:linear-gradient(#101c19,#0a1210); border-bottom:1px solid #3a3420; box-shadow:0 4px 18px rgba(0,0,0,.5)}
+.bar::after{content:""; position:absolute; left:0; right:0; bottom:3px; height:1px; background:linear-gradient(90deg, transparent, rgba(201,162,76,.55), transparent)}
+.bar .brand{font:400 20px/1 'Ruslan Display',serif; letter-spacing:.05em; color:var(--cream); text-decoration:none; white-space:nowrap}
+.bar nav{display:flex; gap:2px; margin-left:auto; overflow-x:auto; scrollbar-width:none}
+.bar nav::-webkit-scrollbar{display:none}
+.bar nav a{padding:6px 12px; text-decoration:none; font:400 17px/1 var(--deco); letter-spacing:.06em; color:#cdbf98; white-space:nowrap; border-radius:2px}
+.bar nav a:hover{color:var(--brass-hi)}
+.bar nav a[aria-current="page"]{color:var(--brass-hi); box-shadow:inset 0 -2px 0 var(--brass)}
+.bar .sw{flex:none; font:13px var(--mono); letter-spacing:.08em; text-decoration:none; color:#cdbf98; border:1px solid rgba(201,162,76,.45); padding:3px 8px; border-radius:2px; white-space:nowrap}
+.bar .sw:hover{color:var(--brass-hi); border-color:var(--brass-hi)}
+.bar .short{display:none}
+
+/* ---------- гостиная ---------- */
+.intro{text-align:center; padding:22px 18px 14px}
+.intro h1{margin:0; font:400 clamp(34px,5vw,62px)/1.05 var(--deco); letter-spacing:.12em; color:var(--brass-hi); text-shadow:0 0 30px rgba(201,162,76,.25)}
+.intro .where{margin:6px 0 0; font:13px/1.3 var(--mono); letter-spacing:.18em; text-transform:uppercase; color:#9c9070}
+.intro .hint{margin:10px auto 0; max-width:60ch; font-style:italic; color:var(--cream-2)}
+.deco-rule{display:block; width:min(360px,70%); height:14px; margin:12px auto 0; background:
+  linear-gradient(var(--brass),var(--brass)) center/100% 1px no-repeat,
+  radial-gradient(circle, var(--brass) 0 3px, transparent 4px) center/14px 14px no-repeat}
+.scene-wrap{position:relative; width:100%; overflow-x:auto; overflow-y:hidden; scrollbar-width:thin; -webkit-overflow-scrolling:touch}
+.scene{position:relative; width:100%; min-width:860px; aspect-ratio:16/9; max-height:calc(100svh - 70px); margin:0 auto}
+.scene svg{position:absolute; inset:0; width:100%; height:100%; display:block}
+.pan-hint{display:none; text-align:center; font:16px var(--hand); color:#cdbf98; padding:8px 0 0}
+.tag{position:absolute; z-index:3; transform:translate(-50%,-50%); display:flex; align-items:center; gap:8px; padding:6px 12px 7px 9px; border:1px solid #8a6a2c; border-radius:2px; cursor:pointer;
+  background:linear-gradient(#2a1e10,#140d07); color:var(--brass-hi); font:400 clamp(13px,1.1vw,17px)/1 var(--deco); letter-spacing:.08em; white-space:nowrap; box-shadow:0 6px 16px rgba(0,0,0,.55)}
+.tag::before{content:""; width:9px; height:9px; border-radius:50%; background:var(--brass-hi); box-shadow:0 0 0 0 rgba(241,216,142,.7); animation:ping 2.2s infinite}
+.tag:hover{background:linear-gradient(#3a2a14,#1c120a)}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(241,216,142,.7)}80%,100%{box-shadow:0 0 0 12px rgba(241,216,142,0)}}
+.now{position:absolute; z-index:3; left:2.5%; top:4%; max-width:34%; padding:8px 12px; background:rgba(10,16,14,.82); border:1px solid #5d4a22; font:15px/1.3 var(--serif); opacity:0; transform:translateY(-6px); transition:.4s; pointer-events:none}
+.now.on{opacity:1; transform:none}
+.now small{display:block; font:11px var(--mono); letter-spacing:.14em; text-transform:uppercase; color:#9c9070}
+.now b{color:var(--brass-hi); font-weight:700}
+
+/* анимации сцены */
+.crane-light{animation:blink 1.6s steps(1) infinite}
+@keyframes blink{50%{opacity:.1}}
+.glowb{animation:breathe 5s ease-in-out infinite alternate}
+@keyframes breathe{from{opacity:.78}to{opacity:1}}
+.smoke path{stroke-dasharray:6 200; animation:smoke 5s linear infinite}
+@keyframes smoke{from{stroke-dashoffset:0; opacity:0}10%{opacity:.7}to{stroke-dashoffset:-200; opacity:0}}
+.ripple{animation:ripple 4s ease-in-out infinite alternate}
+@keyframes ripple{from{transform:translateX(-6px)}to{transform:translateX(6px)}}
+.ship{animation:ship 90s linear infinite}
+@keyframes ship{from{transform:translateX(-80px)}to{transform:translateX(160px)}}
+.daisy-tail{transform-box:fill-box; transform-origin:0% 30%; animation:wag 5s ease-in-out infinite}
+@keyframes wag{0%,80%,100%{transform:rotate(0)}86%{transform:rotate(-12deg)}92%{transform:rotate(6deg)}}
+.daisy-head{transform-box:fill-box; transform-origin:85% 70%; transition:transform .5s}
+.daisy.up .daisy-head{transform:rotate(-10deg)}
+.egg{cursor:pointer}
+.egg:hover{filter:brightness(1.2)}
+#arm{transform-box:view-box; transform-origin:316px 470px; transition:transform 1.2s ease}
+#arm.on{transform:rotate(26deg)}
+
+/* подпись к мелочи */
+.cap{position:absolute; z-index:5; width:min(270px, 40%); padding:11px 14px 12px; background:#120c08; color:var(--cream); border:1px solid #8a6a2c; font:italic 500 clamp(14px,1.25vw,17px)/1.35 var(--serif);
+  box-shadow:0 10px 26px rgba(0,0,0,.6); transform:translate(-50%, calc(-100% - 12px)) scale(.8); opacity:0; transition:.25s cubic-bezier(.3,1.4,.5,1); pointer-events:none}
+.cap::before{content:""; position:absolute; top:-1px; left:20%; right:20%; height:3px; background:linear-gradient(90deg,#8a6a2c,var(--brass-hi),#8a6a2c)}
+.cap.below{transform:translate(-50%, 12px) scale(.8)}
+.cap.show{opacity:1; transform:translate(-50%, calc(-100% - 12px))}
+.cap.below.show{transform:translate(-50%, 12px)}
+.zina{position:absolute; z-index:6; left:50%; top:16%; transform:translate(-50%,-10px); opacity:0; max-width:min(440px, 80%); padding:10px 16px 12px; border-radius:14px; background:#f4ead2; color:#2a1e14; font:19px/1.3 var(--hand); box-shadow:0 10px 26px rgba(0,0,0,.55); transition:.5s}
+.zina small{display:block; font:11px var(--mono); letter-spacing:.08em; color:#7a6a52}
+.zina.on{opacity:1; transform:translate(-50%,0)}
+
+/* карточки разделов под сценой */
+.rooms{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px; width:min(1240px, calc(100vw - 32px)); margin:26px auto 0}
+.room-card{position:relative; text-align:left; padding:18px 18px 20px; border:1px solid #4d3f1e; background:linear-gradient(160deg,#16251f,#0e1714); cursor:pointer; transition:transform .25s, border-color .25s}
+.room-card::before{content:""; position:absolute; inset:5px; border:1px solid rgba(201,162,76,.22); pointer-events:none}
+.room-card:hover{transform:translateY(-3px); border-color:var(--brass)}
+.room-card b{display:block; font:400 24px/1.1 var(--deco); letter-spacing:.06em; color:var(--brass-hi)}
+.room-card span{display:block; margin-top:6px; font-size:17px; line-height:1.4; color:var(--cream-2)}
+.room-card i{position:absolute; right:14px; top:14px; font:normal 20px var(--deco); color:var(--brass)}
+footer{text-align:center; padding:40px 18px calc(30px + env(safe-area-inset-bottom)); color:#7d7358; font-size:15px}
+footer a{color:#cdbf98}
+
+/* ---------- листы-разделы ---------- */
+.sheet{position:fixed; inset:0; z-index:40; display:none; overflow-y:auto; -webkit-overflow-scrolling:touch; background:rgba(4,8,7,.86); backdrop-filter:blur(3px)}
+.sheet.on{display:block; animation:sheetIn .35s ease}
+@keyframes sheetIn{from{opacity:0}to{opacity:1}}
+.sheet .inner{position:relative; width:min(1120px, calc(100vw - 24px)); margin:max(64px, 6vh) auto 40px; animation:rise .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes rise{from{transform:translateY(24px); opacity:0}to{transform:none; opacity:1}}
+.sheet .close{position:fixed; top:max(12px, env(safe-area-inset-top)); right:max(12px, env(safe-area-inset-right)); z-index:45; display:inline-block; padding:8px 14px; background:#120c08; border:1px solid #8a6a2c; color:var(--brass-hi); font:400 17px var(--deco); letter-spacing:.06em; cursor:pointer}
+.sheet h2{margin:0; font:400 clamp(30px,4vw,48px)/1.1 var(--deco); letter-spacing:.1em; color:var(--brass-hi)}
+.sheet .sub{margin:6px 0 22px; font-style:italic; color:var(--cream-2); max-width:70ch}
+
+/* пластинки */
+.shelf{padding:28px clamp(14px,3vw,34px) 34px; background:linear-gradient(#1d120b,#120a06); border:1px solid #3d2a15; box-shadow:inset 0 0 50px rgba(0,0,0,.6)}
+.recs{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:30px 24px}
+.rec{position:relative; text-align:left; background:none; border:0; padding:0; cursor:pointer}
+.rec .sl{position:relative; aspect-ratio:1; overflow:visible}
+.rec .vinyl{position:absolute; top:3%; left:3%; width:94%; aspect-ratio:1; border-radius:50%; background:
+  radial-gradient(circle, var(--lab,#a8261f) 0 15%, #111 15.5% 17%, transparent 17.5%),
+  repeating-radial-gradient(circle, #141414 0 2px, #1d1d1d 2px 3px); box-shadow:0 4px 10px rgba(0,0,0,.5); transition:transform .5s cubic-bezier(.3,1.2,.5,1)}
+.rec:hover .vinyl,.rec.on .vinyl{transform:translateX(22%)}
+.rec.on .vinyl{animation:spin 1.8s linear infinite}
+@keyframes spin{from{transform:translateX(22%) rotate(0)}to{transform:translateX(22%) rotate(360deg)}}
+.rec .cover{position:absolute; inset:0; z-index:1; padding:9%; display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden; box-shadow:0 8px 18px rgba(0,0,0,.55); background:var(--c1)}
+.rec .cover::before{content:""; position:absolute; inset:0; background:var(--art)}
+.rec .cover .lb{position:relative; margin:0 -9% -9%; padding:8% 9% 9%; background:linear-gradient(transparent, var(--c1) 30%)}
+.rec .cover span{position:relative; font:400 clamp(12px,1.1vw,15px)/1.1 var(--deco); letter-spacing:.06em; color:var(--c2); text-transform:uppercase}
+.rec .cover strong{position:relative; display:block; margin-top:4px; font:700 clamp(15px,1.5vw,21px)/1.05 var(--serif); color:var(--c2)}
+.rec .meta{margin-top:10px; font:13px var(--mono); color:#9c9070; letter-spacing:.05em}
+.rec .note{margin-top:4px; font:21px/1.1 var(--hand); color:#e9dbb8}
+.rec .badge{position:absolute; z-index:2; right:-8px; top:-8px; padding:3px 8px; background:var(--brass); color:#1a1006; font:700 11px var(--mono); letter-spacing:.1em; text-transform:uppercase; opacity:0; transition:.3s}
+.rec.on .badge{opacity:1}
+.rec.secret .cover{filter:grayscale(.2)}
+.rec.secret .sl::after{content:"НЕ ТРОГАТЬ"; position:absolute; z-index:2; left:8%; top:10%; padding:2px 6px; font:700 11px var(--mono); letter-spacing:.1em; color:#c22a22; border:2px solid #c22a22; transform:rotate(-10deg); background:rgba(255,255,255,.85)}
+html[lang="en"] .rec.secret .sl::after{content:"DO NOT TOUCH"}
+
+/* записная книжка */
+.book{display:grid; grid-template-columns:auto 1fr; max-width:900px; margin:0 auto; padding:16px; background:linear-gradient(135deg,#4a2414,#2a120a); border-radius:6px; box-shadow:0 20px 40px rgba(0,0,0,.6), inset 0 0 0 2px #6b3a1e}
+.book .tabs{display:flex; flex-direction:column; gap:4px; padding:12px 0 12px 0}
+.book .tabs button{width:44px; padding:8px 0; border:0; border-radius:6px 0 0 6px; background:#d8c7a0; color:#3a2a15; font:700 18px var(--serif); cursor:pointer; box-shadow:inset -6px 0 8px -6px rgba(0,0,0,.4)}
+.book .tabs button:nth-child(odd){background:#cdb98e}
+.book .tabs button[aria-selected="true"]{background:#f6eedb; color:#7a1c22; box-shadow:none; transform:translateX(3px)}
+.book .page{min-height:420px; padding:26px clamp(18px,4vw,44px) 30px; background:#f6eedb repeating-linear-gradient(transparent 0 33px, rgba(43,74,139,.18) 33px 34px); color:var(--ink); border-radius:0 4px 4px 0; position:relative}
+.book .page::before{content:""; position:absolute; left:clamp(10px,3vw,30px); top:0; bottom:0; width:1px; background:rgba(168,38,31,.35)}
+.book .letter{font:400 48px/1 var(--deco); color:#7a1c22}
+.entry{margin-top:16px}
+.entry .n{font:700 30px/1.05 var(--hand); color:#1f2f6b}
+.entry .t{font:14px var(--mono); color:#5a5144; margin-top:2px}
+.entry .t.x{text-decoration:line-through; text-decoration-color:#a8261f; text-decoration-thickness:2px}
+.entry .p{font:24px/1.15 var(--hand); color:#2a2a3a; margin-top:4px; max-width:46ch}
+
+/* фотоальбом */
+.album{max-width:1040px; margin:0 auto; padding:clamp(12px,2vw,22px); background:#3a1220; border-radius:6px; box-shadow:0 20px 40px rgba(0,0,0,.6), inset 0 0 0 3px #5a2232}
+.spread{display:grid; grid-template-columns:1fr 1fr; gap:6px}
+.apage{position:relative; min-height:440px; padding:28px 24px 34px; background:#2f2f2d; background-image:radial-gradient(rgba(255,255,255,.035) 1px, transparent 1px); background-size:4px 4px; display:flex; flex-direction:column; gap:26px; align-items:center; justify-content:center}
+.apage .pn{position:absolute; bottom:10px; font:12px var(--mono); color:#8a8a84}
+.ph{position:relative; width:min(78%, 300px); text-align:center}
+.ph .fr{position:relative; aspect-ratio:4/3; background:#e9e4d6; padding:7px; box-shadow:0 4px 8px rgba(0,0,0,.5); transform:rotate(var(--r,0deg))}
+.ph .fr.tall{aspect-ratio:3/4; width:70%; margin:0 auto}
+.ph .fr img{width:100%; height:100%; object-fit:cover; filter:sepia(.35) contrast(1.05)}
+.ph .none{width:100%; height:100%; display:grid; place-items:center; align-content:center; gap:8px; background:linear-gradient(135deg,#8a7a5c,#5d523e); color:#f1e6c9}
+.ph .none svg{width:30%; fill:rgba(0,0,0,.25)}
+.ph .none b{font:11px var(--mono); letter-spacing:.12em; text-transform:uppercase; background:rgba(168,38,31,.85); padding:3px 6px; transform:rotate(-5deg)}
+.ph .fr::before,.ph .fr::after{content:""; position:absolute; width:22px; height:22px; background:linear-gradient(135deg,#1b1b1a 50%, transparent 50%)}
+.ph .fr::before{left:-4px; top:-4px}
+.ph .fr::after{right:-4px; bottom:-4px; transform:rotate(180deg)}
+.ph .c{margin-top:10px; font:22px/1.1 var(--hand); color:#ecebe4}
+.apager{display:flex; justify-content:space-between; align-items:center; margin-top:14px}
+.apager button{padding:8px 14px; background:#120c08; border:1px solid #8a6a2c; color:var(--brass-hi); font:400 17px var(--deco); cursor:pointer}
+.apager button:disabled{opacity:.35; cursor:default}
+.apager span{font:13px var(--mono); color:#c9bfa5}
+
+/* досье */
+.dossier{max-width:1000px; margin:0 auto; padding:clamp(18px,4vw,46px); background:#f1e8d2; color:var(--ink); position:relative; box-shadow:0 20px 40px rgba(0,0,0,.6)}
+.dossier::before{content:""; position:absolute; inset:10px; border:1px solid #b88f3a; outline:1px solid rgba(184,143,58,.45); outline-offset:-6px; pointer-events:none}
+.dossier h2{color:#5a3d10}
+.dossier .sub{color:#5a5144}
+.dgrid{display:grid; grid-template-columns:220px 1fr; gap:30px; align-items:start}
+.dgrid .pf{background:#fff; padding:8px 8px 30px; box-shadow:0 6px 14px rgba(0,0,0,.25); transform:rotate(-2deg)}
+.dgrid .pf img{width:100%; aspect-ratio:3/4; object-fit:cover; filter:sepia(.25)}
+.dgrid .pf b{display:block; margin-top:6px; text-align:center; font:24px var(--hand); color:#1f2f6b}
+.fields{display:grid; grid-template-columns:auto 1fr; gap:6px 18px; margin:0}
+.fields dt{font:13px/1.9 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:#8a7a5c}
+.fields dd{margin:0; font-size:19px; font-weight:700}
+.dossier h3{margin:28px 0 8px; font:400 26px/1.1 var(--deco); letter-spacing:.08em; color:#5a3d10}
+.dossier p{margin:0 0 10px; font-size:19px}
+.traits{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px}
+.traits div{padding:12px 14px; border-top:2px solid #b88f3a; background:rgba(184,143,58,.08)}
+.traits b{display:block; font:700 19px var(--serif)}
+.traits span{font-size:17px; line-height:1.4}
+.quotes{margin:10px 0 0; padding:0; list-style:none; display:grid; gap:8px}
+.quotes li{font:italic 21px/1.35 var(--serif); padding-left:18px; border-left:3px solid #b88f3a}
+.lh{display:grid; grid-template-columns:1fr 1fr; gap:24px}
+.lh ul{margin:0; padding-left:20px; font-size:18px}
+.dossier .soon{margin-top:26px; padding:12px 16px; border:1px dashed #b88f3a; font-style:italic}
+
+@media (max-width:900px){
+  .rooms{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .recs{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .traits{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  .bar{gap:10px; padding:0 8px}
+  .bar .brand{display:none}
+  .bar nav{margin:0 auto}
+  .bar nav a{padding:6px 7px; font-size:15px}
+  .bar .long{display:none} .bar .short{display:inline}
+  .pan-hint{display:block}
+  .scene{max-height:none; height:min(64svh, 520px); width:auto; aspect-ratio:16/9}
+  .recs{grid-template-columns:repeat(2,minmax(0,1fr)); gap:26px 16px}
+  .book{grid-template-columns:auto 1fr; padding:10px}
+  .book .tabs button{width:36px; font-size:16px}
+  .spread{grid-template-columns:1fr}
+  .apage{min-height:0}
+  .dgrid{grid-template-columns:1fr}
+  .dgrid .pf{width:60%; margin:0 auto}
+  .traits,.lh{grid-template-columns:1fr}
+  .cap{width:min(260px, 70vw)}
+}
+@media (max-width:420px){ .rooms{grid-template-columns:1fr} }
+@media (prefers-reduced-motion:reduce){ *,*::before,*::after{animation:none!important; transition:none!important} }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <a class="brand" href="index.html" id="brand">Лихие</a>
+  <nav aria-label="Комнаты" id="nav"></nav>
+  <a class="sw" href="index.html" id="backSw"><span class="long"></span><span class="short"></span></a>
+  <a class="sw" href="oleg.en.html" id="langSw"></a>
+</header>
+
+<div class="intro">
+  <h1 id="title"></h1>
+  <p class="where" id="where"></p>
+  <span class="deco-rule" aria-hidden="true"></span>
+  <p class="hint" id="hint"></p>
+</div>
+
+<div class="scene-wrap" id="sceneWrap">
+ <div class="scene" id="scene">
+  <svg viewBox="0 0 1600 900" id="room" role="img" aria-label="Oleg Barinov’s living room">
+    <defs>
+      <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d1c19"/><stop offset=".5" stop-color="#16302a"/><stop offset="1" stop-color="#0f211d"/></linearGradient>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#070b18"/><stop offset=".6" stop-color="#1a2240"/><stop offset="1" stop-color="#3b2c4a"/></linearGradient>
+      <linearGradient id="water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0e1424"/><stop offset="1" stop-color="#05070d"/></linearGradient>
+      <linearGradient id="brass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6e29c"/><stop offset=".45" stop-color="#c99f45"/><stop offset="1" stop-color="#6d4c16"/></linearGradient>
+      <linearGradient id="brassH" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7a5619"/><stop offset=".5" stop-color="#f3dc92"/><stop offset="1" stop-color="#7a5619"/></linearGradient>
+      <linearGradient id="lacq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c1c1e"/><stop offset="1" stop-color="#0a0a0b"/></linearGradient>
+      <linearGradient id="leather" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a2228"/><stop offset=".6" stop-color="#55141a"/><stop offset="1" stop-color="#360b0f"/></linearGradient>
+      <linearGradient id="velvet" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2a0a10"/><stop offset=".3" stop-color="#5a1420"/><stop offset=".55" stop-color="#3a0d15"/><stop offset=".8" stop-color="#62192a"/><stop offset="1" stop-color="#2a0a10"/></linearGradient>
+      <linearGradient id="floorG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1e110a"/><stop offset="1" stop-color="#3a2214"/></linearGradient>
+      <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".18"/><stop offset=".5" stop-color="#fff" stop-opacity=".04"/><stop offset="1" stop-color="#fff" stop-opacity=".12"/></linearGradient>
+      <linearGradient id="coat" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c79a62"/><stop offset="1" stop-color="#8f6a3e"/></linearGradient>
+      <radialGradient id="lampGlow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffd690" stop-opacity=".8"/><stop offset=".35" stop-color="#ffbf66" stop-opacity=".22"/><stop offset="1" stop-color="#ffbf66" stop-opacity="0"/></radialGradient>
+      <radialGradient id="greenGlow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#e9ffb0" stop-opacity=".55"/><stop offset=".4" stop-color="#ffd690" stop-opacity=".18"/><stop offset="1" stop-color="#ffd690" stop-opacity="0"/></radialGradient>
+      <radialGradient id="moonG" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff8e0"/><stop offset=".3" stop-color="#e8e3cf" stop-opacity=".6"/><stop offset="1" stop-color="#e8e3cf" stop-opacity="0"/></radialGradient>
+      <radialGradient id="vign" cx=".5" cy=".45" r=".75"><stop offset=".45" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".75"/></radialGradient>
+      <filter id="soft"><feGaussianBlur stdDeviation="10"/></filter>
+      <filter id="soft3"><feGaussianBlur stdDeviation="3"/></filter>
+      <filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="9" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .1  0 0 0 0 .09  0 0 0 0 .06  .9 0 0 0 -.45"/></filter>
+      <clipPath id="winClip"><rect x="880" y="70" width="660" height="520"/></clipPath>
+      <clipPath id="floorClip"><rect y="690" width="1600" height="210"/></clipPath>
+      <clipPath id="portraitClip"><rect x="612" y="168" width="136" height="180"/></clipPath>
+    </defs>
+
+    <!-- стены: изумрудный лак, латунные полосы, фриз -->
+    <rect width="1600" height="700" fill="url(#wall)"/>
+    <g id="stripes"></g>
+    <rect y="0" width="1600" height="46" fill="#08110f"/>
+    <rect y="46" width="1600" height="6" fill="url(#brass)"/>
+    <g id="frieze"></g>
+
+    <!-- окно на порт -->
+    <g class="egg" data-egg="window" role="button" tabindex="0" aria-label="Окно на порт">
+      <g clip-path="url(#winClip)">
+        <rect x="880" y="70" width="660" height="520" fill="url(#sky)"/>
+        <g id="stars"></g>
+        <circle cx="1440" cy="150" r="60" fill="url(#moonG)"/>
+        <circle cx="1440" cy="150" r="16" fill="#fbf5df"/>
+        <!-- дальний берег -->
+        <path d="M880 430h660v30H880z" fill="#0b0f1a"/>
+        <g id="skyline"></g>
+        <!-- краны -->
+        <g id="cranes"></g>
+        <!-- вода -->
+        <rect x="880" y="458" width="660" height="140" fill="url(#water)"/>
+        <g id="reflect" class="ripple"></g>
+        <g class="ship"><path d="M1060 470h120l-12 14h-96z" fill="#0a0d16"/><rect x="1110" y="452" width="34" height="18" fill="#0a0d16"/><g fill="#ffd27a"><circle cx="1080" cy="477" r="1.6"/><circle cx="1096" cy="477" r="1.6"/><circle cx="1112" cy="477" r="1.6"/><circle cx="1128" cy="477" r="1.6"/><circle cx="1150" cy="477" r="1.6"/></g><circle cx="1127" cy="448" r="2" fill="#ff3b30" class="crane-light"/></g>
+      </g>
+      <rect x="880" y="70" width="660" height="520" fill="url(#glass)"/>
+      <g stroke="#0b0b0c" stroke-width="12" fill="none"><rect x="880" y="70" width="660" height="520"/><path d="M1100 70v520M1320 70v520M880 200h660"/></g>
+      <g stroke="url(#brassH)" stroke-width="2" fill="none" opacity=".6"><path d="M1100 70v520M1320 70v520M880 200h660"/></g>
+      <rect x="866" y="586" width="688" height="16" fill="#151515"/>
+    </g>
+    <!-- шторы -->
+    <path d="M826 52h70c-6 200 10 420-8 650h-62c8-230-8-450 0-650z" fill="url(#velvet)"/>
+    <path d="M1524 52h76v650h-70c10-230-14-440-6-650z" fill="url(#velvet)"/>
+    <rect x="812" y="54" width="800" height="8" rx="4" fill="url(#brassH)"/>
+
+    <!-- портрет: досье -->
+    <g class="egg" data-egg="portrait" data-open="dossier" role="button" tabindex="0" aria-label="Портрет: досье">
+      <rect x="596" y="152" width="168" height="212" fill="#000" opacity=".5" filter="url(#soft)" transform="translate(8 10)"/>
+      <rect x="596" y="152" width="168" height="212" fill="url(#brass)"/>
+      <rect x="606" y="162" width="148" height="192" fill="#3a2a10"/>
+      <image href="assets/npc/barinov.webp" x="612" y="168" width="136" height="180" preserveAspectRatio="xMidYMin slice" clip-path="url(#portraitClip)"/>
+      <rect x="612" y="168" width="136" height="180" fill="#3a1f0a" opacity=".18"/>
+      <rect x="650" y="370" width="60" height="14" fill="url(#brass)"/>
+    </g>
+    <!-- бра над портретом -->
+    <path d="M680 136h0" stroke="none"/>
+    <g><rect x="640" y="126" width="80" height="8" rx="3" fill="url(#brassH)"/><circle class="glowb" cx="680" cy="150" r="150" fill="url(#lampGlow)" opacity=".5" pointer-events="none"/></g>
+
+    <!-- стеллаж с пластинками -->
+    <g class="egg" data-egg="shelf" data-open="records" role="button" tabindex="0" aria-label="Стеллаж с пластинками">
+      <rect x="40" y="110" width="500" height="420" fill="#000" opacity=".5" filter="url(#soft)" transform="translate(10 10)"/>
+      <rect x="40" y="110" width="500" height="420" fill="url(#lacq)"/>
+      <rect x="40" y="110" width="500" height="8" fill="url(#brassH)"/>
+      <g id="spines"></g>
+    </g>
+    <!-- комод и проигрыватель -->
+    <g>
+      <rect x="30" y="530" width="520" height="170" fill="url(#lacq)"/>
+      <rect x="30" y="530" width="520" height="10" fill="#2a2a2c"/>
+      <path d="M30 530h520" stroke="url(#brassH)" stroke-width="2"/>
+      <g fill="none" stroke="#3a3a3c" stroke-width="2"><rect x="50" y="556" width="150" height="124"/><rect x="215" y="556" width="150" height="124"/><rect x="380" y="556" width="150" height="124"/></g>
+      <g stroke="url(#brassH)" stroke-width="4" stroke-linecap="round"><path d="M110 618h30M275 618h30M440 618h30"/></g>
+      <rect x="30" y="696" width="520" height="8" fill="#000" opacity=".5"/>
+      <g class="egg" data-egg="turntable" data-open="records" role="button" tabindex="0" aria-label="Проигрыватель">
+        <rect x="140" y="490" width="230" height="40" rx="3" fill="#5a3a22"/>
+        <rect x="140" y="486" width="230" height="8" rx="3" fill="#b9b7b0"/>
+        <ellipse cx="236" cy="489" rx="74" ry="11" fill="#2a2a2a"/>
+        <g id="disc"><ellipse cx="236" cy="488" rx="68" ry="10" fill="#0d0d0d"/><ellipse cx="236" cy="488" rx="18" ry="3" fill="#a8261f" id="discLabel"/><path d="M190 486q46 -6 92 0" stroke="#3a3a3a" stroke-width="1" fill="none" id="discShine"/></g>
+        <circle cx="316" cy="470" r="7" fill="#c9c6bd"/>
+        <g id="arm"><path d="M316 470L330 500" stroke="#d9d6cf" stroke-width="3" stroke-linecap="round"/><rect x="326" y="498" width="10" height="5" fill="#d9d6cf"/></g>
+        <circle cx="356" cy="520" r="4" fill="#c22" class="crane-light" id="powerLed" opacity="0"/>
+      </g>
+      <!-- фото Алины на комоде -->
+      <g><rect x="440" y="470" width="50" height="60" fill="url(#brass)"/><rect x="445" y="475" width="40" height="50" fill="#d8cbb0"/><circle cx="465" cy="494" r="9" fill="#8a7a5c"/><path d="M450 525c2-14 10-18 15-18s13 4 15 18z" fill="#8a7a5c"/></g>
+    </g>
+
+    <!-- торшер ар-деко -->
+    <g>
+      <path d="M565 700V300" stroke="url(#brassH)" stroke-width="5"/>
+      <ellipse cx="565" cy="702" rx="28" ry="6" fill="url(#brass)"/>
+      <path d="M535 300h60l-12-46h-36z" fill="#f1e2c0"/>
+      <circle class="glowb" cx="565" cy="290" r="220" fill="url(#lampGlow)" pointer-events="none"/>
+    </g>
+
+    <!-- пол: ёлочка в перспективе, лунный свет, ковёр -->
+    <rect y="690" width="1600" height="210" fill="url(#floorG)"/>
+    <g id="planks" clip-path="url(#floorClip)"></g>
+    <g fill="#9fb4e6" opacity=".07" pointer-events="none"><path d="M900 700h220l60 200H940z"/><path d="M1130 700h200l90 200h-230z"/><path d="M1340 700h190l120 200h-220z"/></g>
+    <path d="M300 760h1000l120 140H180z" fill="#e3d6b8"/>
+    <path d="M330 772h940l100 116H230z" fill="none" stroke="#151515" stroke-width="10"/>
+    <path d="M358 784h884l80 92H278z" fill="none" stroke="#c9a24c" stroke-width="2"/>
+    <g id="rugDeco"></g>
+    <rect y="690" width="1600" height="30" fill="#000" opacity=".45" filter="url(#soft3)"/>
+
+    <!-- приставной столик: лампа, телефон, записная книжка -->
+    <g>
+      <ellipse cx="810" cy="720" rx="70" ry="10" fill="#000" opacity=".5" filter="url(#soft3)"/>
+      <rect x="750" y="596" width="120" height="10" fill="url(#lacq)"/>
+      <path d="M760 606l6 110M860 606l-6 110M766 670h88" stroke="url(#brassH)" stroke-width="4"/>
+      <g class="egg" data-egg="lamp" role="button" tabindex="0" aria-label="Лампа с зелёным абажуром">
+        <path d="M842 596v-50" stroke="url(#brassH)" stroke-width="4"/>
+        <ellipse cx="842" cy="598" rx="18" ry="4" fill="url(#brass)"/>
+        <path d="M812 548h60l-6-20h-48z" fill="#1d5a3a"/>
+        <path d="M812 548h60" stroke="#e9ffb0" stroke-width="2" opacity=".6"/>
+        <circle class="glowb" cx="842" cy="560" r="120" fill="url(#greenGlow)" pointer-events="none"/>
+      </g>
+      <g class="egg" data-egg="phone" data-open="book" role="button" tabindex="0" aria-label="Телефон и записная книжка">
+        <rect x="760" y="576" width="40" height="20" rx="3" fill="#151515"/>
+        <rect x="768" y="560" width="22" height="18" rx="3" fill="#202020"/>
+        <path d="M786 560v-22" stroke="#202020" stroke-width="3"/>
+        <circle cx="786" cy="537" r="2.4" fill="#202020"/>
+        <g transform="rotate(-6 790 592)">
+          <rect x="770" y="584" width="58" height="12" rx="1" fill="#6b2e14"/>
+          <rect x="826" y="585" width="4" height="3" fill="#c9a24c"/><rect x="826" y="589" width="4" height="3" fill="#a8261f"/><rect x="826" y="593" width="4" height="2" fill="#2b4a8b"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- диван честерфилд -->
+    <g class="egg" data-egg="sofa" role="button" tabindex="0" aria-label="Диван">
+      <ellipse cx="1150" cy="760" rx="300" ry="20" fill="#000" opacity=".55" filter="url(#soft)"/>
+      <path d="M930 560q0-22 22-22h396q22 0 22 22v110H930z" fill="url(#leather)"/>
+      <g id="tufts"></g>
+      <rect x="930" y="650" width="440" height="60" rx="10" fill="#5e171c"/>
+      <rect x="930" y="650" width="440" height="8" rx="4" fill="#8a2a30" opacity=".6"/>
+      <path d="M1150 652v56" stroke="#3a0b0f" stroke-width="2"/>
+      <path d="M890 580q0-26 30-26q30 0 30 26v150h-60z" fill="url(#leather)"/>
+      <path d="M1350 580q0-26 30-26q30 0 30 26v150h-60z" fill="url(#leather)"/>
+      <ellipse cx="920" cy="582" rx="30" ry="12" fill="#8a2a30" opacity=".55"/>
+      <ellipse cx="1380" cy="582" rx="30" ry="12" fill="#8a2a30" opacity=".55"/>
+      <rect x="890" y="728" width="520" height="12" fill="#2a080b"/>
+      <g fill="url(#brass)"><rect x="900" y="740" width="10" height="18"/><rect x="1390" y="740" width="10" height="18"/></g>
+    </g>
+    <!-- пальто брошено на спинку дивана -->
+    <g class="egg" data-egg="coat" role="button" tabindex="0" aria-label="Пальто">
+      <path d="M968 548q60-18 150-8q20 2 24 12q-4 8-24 10q-60 4-90 14q-16 30-14 74l-34 4q-10-40-20-70q-8-22 8-36z" fill="#000" opacity=".3" filter="url(#soft3)" transform="translate(4 6)"/>
+      <path d="M968 548q60-18 150-8q20 2 24 12q-4 8-24 10q-60 4-90 14q-16 30-14 74l-34 4q-10-40-20-70q-8-22 8-36z" fill="url(#coat)"/>
+      <path d="M980 552q60-12 140-6M1000 580q-8 34 4 70M1030 576q-14 30-12 70" stroke="#7a5630" stroke-width="2" fill="none" opacity=".8"/>
+      <path d="M972 548q60-16 146-8" stroke="#e0bb85" stroke-width="3" fill="none"/>
+      <circle cx="1060" cy="556" r="3" fill="#5a3a1a"/>
+    </g>
+
+    <!-- журнальный столик: шахматы, альбом, очки с Бродским, фишка, кофе -->
+    <g>
+      <ellipse cx="1150" cy="850" rx="290" ry="16" fill="#000" opacity=".55" filter="url(#soft)"/>
+      <path d="M900 780h500l30 36H870z" fill="#cfe3e6" opacity=".22"/>
+      <path d="M870 816h560" stroke="url(#brassH)" stroke-width="4"/>
+      <path d="M900 780h500" stroke="url(#brassH)" stroke-width="3"/>
+      <path d="M884 818l-6 50M1416 818l6 50M1150 818v50" stroke="url(#brassH)" stroke-width="5"/>
+      <g class="egg" data-egg="chess" role="button" tabindex="0" aria-label="Шахматы">
+        <path d="M930 806l18-26h96l14 26z" fill="#d9cfb8"/>
+        <g id="chessSq"></g>
+        <g fill="#111"><path d="M968 790v-10h4v10z"/><circle cx="970" cy="778" r="3.5"/><path d="M1012 796v-12h5v12z"/><circle cx="1014.5" cy="782" r="4"/></g>
+        <g fill="#f4efe2"><path d="M990 800v-12h5v12z"/><circle cx="992.5" cy="786" r="4"/><path d="M1030 792v-9h4v9z"/></g>
+      </g>
+      <g class="egg" data-egg="album" data-open="album" role="button" tabindex="0" aria-label="Фотоальбом">
+        <path d="M1080 806l10-26h110l6 26z" fill="#4a1622"/>
+        <path d="M1080 806l10-26h110l6 26z" fill="none" stroke="#c9a24c" stroke-width="1.5"/>
+        <path d="M1086 806h120v5h-120z" fill="#e9e4d6"/>
+        <path d="M1118 794h52" stroke="#c9a24c" stroke-width="2"/>
+      </g>
+      <g class="egg" data-egg="glasses" role="button" tabindex="0" aria-label="Книга и очки">
+        <path d="M1236 806l8-22h70l6 22z" fill="#2b3e5c"/>
+        <path d="M1240 806h80v4h-80z" fill="#efe6d4"/>
+        <g fill="none" stroke="#d9b45a" stroke-width="1.6"><ellipse cx="1262" cy="788" rx="9" ry="5"/><ellipse cx="1286" cy="788" rx="9" ry="5"/><path d="M1271 788h6M1253 787l-12-4M1295 787l12-4"/></g>
+      </g>
+      <g class="egg" data-egg="chip" role="button" tabindex="0" aria-label="Фишка казино"><ellipse cx="1342" cy="802" rx="11" ry="4" fill="#a8261f"/><ellipse cx="1342" cy="800" rx="11" ry="4" fill="#c4332a" stroke="#f1e2b8" stroke-dasharray="3 3"/></g>
+      <g class="egg" data-egg="cup" role="button" tabindex="0" aria-label="Чашка кофе">
+        <ellipse cx="1380" cy="806" rx="16" ry="4" fill="#e9e4d6"/>
+        <path d="M1370 790h20l-2 14h-16z" fill="#f4efe2"/><ellipse cx="1380" cy="790" rx="10" ry="3" fill="#3a2010"/>
+        <path d="M1390 794q7 0 6 5q-1 4-7 3" stroke="#f4efe2" stroke-width="2" fill="none"/>
+        <g class="smoke" fill="none" stroke="#e9e4da" stroke-width="1.6" stroke-linecap="round" opacity=".6"><path d="M1378 786c-6-10 8-16 0-26s6-16 0-28"/></g>
+      </g>
+    </g>
+
+    <!-- бар-тележка -->
+    <g class="egg" data-egg="bar" role="button" tabindex="0" aria-label="Бар">
+      <ellipse cx="1500" cy="768" rx="90" ry="10" fill="#000" opacity=".5" filter="url(#soft3)"/>
+      <path d="M1430 620h150M1430 700h150M1436 620v140M1574 620v140" stroke="url(#brassH)" stroke-width="5"/>
+      <rect x="1430" y="616" width="150" height="6" fill="#cfe3e6" opacity=".35"/><rect x="1430" y="696" width="150" height="6" fill="#cfe3e6" opacity=".35"/>
+      <circle cx="1440" cy="764" r="8" fill="#111" stroke="url(#brass)" stroke-width="3"/><circle cx="1570" cy="764" r="8" fill="#111" stroke="url(#brass)" stroke-width="3"/>
+      <g id="decanters"></g>
+    </g>
+
+    <!-- Дейзи на ковре -->
+    <g class="egg daisy" data-egg="daisy" role="button" tabindex="0" aria-label="Дейзи" transform="translate(600 812) scale(1.15)">
+      <ellipse cx="10" cy="34" rx="200" ry="14" fill="#000" opacity=".35" filter="url(#soft3)"/>
+      <path class="daisy-tail" d="M150 6q40 8 56 26q-24 4 -40 -4q-10 -6 -16 -14z" fill="#efe6d4"/>
+      <path d="M150 10q38 10 50 22" stroke="#d8c7a8" stroke-width="2" fill="none"/>
+      <!-- тело -->
+      <path d="M-62 -44c18-14 70-18 112-12c30 4 56 -2 86 4c22 4 34 24 32 44c-2 18 -18 30 -40 32h-120c-26 0 -54 -2 -72 -12c-18 -10 -22 -40 2 -56z" fill="#f1e8d6"/>
+      <path d="M10 -52c30 -2 52 2 80 2c20 0 36 6 44 20c-30 -8 -70 -6 -104 -10c-12 -2 -20 -6 -20 -12z" fill="#c9944f" opacity=".85"/>
+      <path d="M120 -10c18 0 32 12 30 30c-14 10 -40 8 -52 -4c-6 -14 6 -26 22 -26z" fill="#c9944f" opacity=".75"/>
+      <!-- задняя лапа -->
+      <path d="M100 18c-10 12 -40 16 -70 14" stroke="#e6dcc6" stroke-width="12" stroke-linecap="round" fill="none"/>
+      <!-- передние лапы вытянуты -->
+      <path d="M-50 14c-40 6 -90 8 -130 10" stroke="#f1e8d6" stroke-width="11" stroke-linecap="round" fill="none"/>
+      <path d="M-40 22c-40 4 -86 6 -122 10" stroke="#e8dec9" stroke-width="10" stroke-linecap="round" fill="none"/>
+      <!-- шея и голова -->
+      <g class="daisy-head">
+        <path d="M-60 -40c-10 -22 -22 -40 -40 -48c-14 -4 -24 4 -22 14c4 18 22 30 36 46z" fill="#f1e8d6"/>
+        <path d="M-118 -78c-20 2 -52 18 -70 30c-6 6 -2 12 6 12c26 -2 54 -10 76 -20c8 -4 10 -16 -12 -22z" fill="#f1e8d6"/>
+        <path d="M-186 -38c4 2 8 0 8 -4" stroke="#2a1d12" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <circle cx="-186" cy="-40" r="3.2" fill="#1a1410"/>
+        <path d="M-108 -82c-2 -8 8 -14 18 -10c8 4 6 14 -2 16z" fill="#c9944f"/>
+        <path d="M-128 -66q4 -3 8 0" stroke="#2a1d12" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        <path d="M-176 -36q36 -4 66 -22" stroke="#d8c7a8" stroke-width="1.6" fill="none"/>
+      </g>
+      <!-- ошейник -->
+      <path d="M-82 -58q10 14 26 18" stroke="#7a1c22" stroke-width="5" fill="none"/>
+      <circle cx="-66" cy="-44" r="3" fill="#c9a24c"/>
+    </g>
+
+    <!-- светлые пятна и виньетка -->
+    <rect width="1600" height="900" fill="url(#vign)" pointer-events="none"/>
+    <rect width="1600" height="900" filter="url(#grain)" opacity=".45" pointer-events="none"/>
+  </svg>
+  <div class="now" id="now"><small id="nowLbl"></small><b id="nowTitle"></b></div>
+  <div class="zina" id="zina"><small></small><span></span></div>
+ </div>
+</div>
+<p class="pan-hint" id="panHint"></p>
+
+<section class="rooms" id="rooms"></section>
+
+<footer><span id="foot"></span></footer>
+
+<!-- листы-разделы -->
+<div class="sheet" id="sh-records" role="dialog" aria-modal="true" aria-labelledby="hRec"><div class="inner">
+  <button class="close" type="button" data-close></button>
+  <div class="shelf"><h2 id="hRec"></h2><p class="sub" id="subRec"></p><div class="recs" id="recs"></div></div>
+</div></div>
+<div class="sheet" id="sh-book" role="dialog" aria-modal="true" aria-labelledby="hBook"><div class="inner">
+  <button class="close" type="button" data-close></button>
+  <h2 id="hBook"></h2><p class="sub" id="subBook"></p>
+  <div class="book"><div class="tabs" role="tablist" id="bookTabs"></div><div class="page" id="bookPage" role="tabpanel"></div></div>
+</div></div>
+<div class="sheet" id="sh-album" role="dialog" aria-modal="true" aria-labelledby="hAlbum"><div class="inner">
+  <button class="close" type="button" data-close></button>
+  <h2 id="hAlbum"></h2><p class="sub" id="subAlbum"></p>
+  <div class="album"><div class="spread" id="spread"></div></div>
+  <div class="apager"><button type="button" id="aPrev"></button><span id="aNum"></span><button type="button" id="aNext"></button></div>
+</div></div>
+<div class="sheet" id="sh-dossier" role="dialog" aria-modal="true" aria-labelledby="hDos"><div class="inner">
+  <button class="close" type="button" data-close></button>
+  <div class="dossier" id="dossier"></div>
+</div></div>
+
+<script src="oleg.data.js"></script>
+<script>
+(() => {
+const LANG = document.documentElement.lang === 'en' ? 'en' : 'ru';
+const D = window.OLEG[LANG];
+const HALL = LANG === 'en' ? 'en.html' : 'index.html';
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const NS = 'http://www.w3.org/2000/svg';
+const S = (tag, a, p) => { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); p && p.appendChild(e); return e; };
+let seed = 5; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+/* ---------- тексты ---------- */
+$('#title').textContent = D.title; $('#where').textContent = D.where; $('#hint').textContent = D.hint;
+$('#brand').href = HALL; $('#backSw').href = HALL;
+$('#backSw .long').textContent = D.nav.back; $('#backSw .short').textContent = D.nav.backShort;
+$('#langSw').textContent = D.nav.lang; $('#langSw').href = D.nav.langHref;
+$('#panHint').textContent = LANG === 'en' ? '← swipe the room sideways →' : '← комнату можно листать вбок →';
+$('#foot').innerHTML = (LANG === 'en' ? 'Likhiye · Oleg Barinov · the bot is in the works' : 'Лихие · Олег Баринов · бот в работе') + ` · <a href="${HALL}">${D.nav.back}</a>`;
+const routes = ['room', 'records', 'book', 'album', 'dossier'];
+const SHORT = LANG === 'en' ? {room:'Room', records:'Records', book:'Book', album:'Album', dossier:'File'} : {room:'Комната', records:'Пластинки', book:'Книжка', album:'Альбом', dossier:'Досье'};
+$('#nav').innerHTML = routes.map(r => `<a href="#/${r === 'room' ? '' : r}" data-r="${r}"><span class="long">${D.nav[r]}</span><span class="short">${SHORT[r]}</span></a>`).join('');
+$('#rooms').innerHTML = D.cards.map(([r, h, p]) => `<button class="room-card" type="button" data-go="${r}"><i>→</i><b>${h}</b><span>${p}</span></button>`).join('');
+document.querySelectorAll('[data-close]').forEach(b => b.textContent = D.nav.close);
+
+/* ---------- сцена: генерируемые детали ---------- */
+(() => { const g = $('#stripes'); for (let x = 60; x < 1600; x += 120){ S('rect', {x, y:52, width:2, height:640, fill:'#c9a24c', opacity:.22}, g); S('rect', {x:x + 8, y:52, width:1, height:640, fill:'#c9a24c', opacity:.12}, g); } })();
+(() => { const g = $('#frieze'); for (let x = 0; x < 1600; x += 40){ S('path', {d:`M${x} 62l20 16 20-16`, stroke:'#c9a24c', 'stroke-width':1.5, fill:'none', opacity:.5}, g); } })();
+(() => { const g = $('#stars'); seed = 3; for (let i = 0; i < 60; i++) S('circle', {cx:880 + rnd() * 660, cy:70 + rnd() * 300, r:(rnd() * 1.2 + .3).toFixed(2), fill:'#fff', opacity:(rnd() * .6 + .2).toFixed(2)}, g); })();
+(() => { const g = $('#skyline'); seed = 8; let x = 880;
+  while (x < 1540){ const w = 20 + rnd() * 50, h = 10 + rnd() * 50; S('rect', {x, y:440 - h, width:w, height:h + 20, fill:'#0b0f1a'}, g);
+    for (let k = 0; k < 4; k++) if (rnd() > .4) S('rect', {x:x + 4 + rnd() * (w - 8), y:440 - h + 6 + rnd() * (h - 6), width:3, height:3, fill:'#ffd27a', opacity:.8}, g); x += w + 2; } })();
+(() => { const g = $('#cranes');
+  [[960, 1], [1060, .8], [1250, 1.1], [1400, .9], [1490, .7]].forEach(([x, s], i) => {
+    const h = 260 * s, top = 440 - h;
+    S('path', {d:`M${x} 440V${top}M${x + 8} 440V${top}`, stroke:'#05070c', 'stroke-width':4}, g);
+    for (let y = top + 10; y < 440; y += 18) S('path', {d:`M${x} ${y}l8 9M${x + 8} ${y}l-8 9`, stroke:'#05070c', 'stroke-width':1.5}, g);
+    const dir = i % 2 ? -1 : 1, jib = 130 * s;
+    S('path', {d:`M${x - 20 * dir} ${top + 4}H${x + jib * dir}`, stroke:'#05070c', 'stroke-width':6}, g);
+    S('path', {d:`M${x + 4} ${top - 30}L${x + jib * dir} ${top + 4}M${x + 4} ${top - 30}L${x - 20 * dir} ${top + 4}`, stroke:'#05070c', 'stroke-width':2}, g);
+    S('path', {d:`M${x + (jib * .7) * dir} ${top + 4}v${60 + i * 12}`, stroke:'#05070c', 'stroke-width':1.2}, g);
+    S('circle', {cx:x + 4, cy:top - 32, r:3, fill:'#ff3b30', class:'crane-light', style:`animation-delay:-${i * .3}s`}, g);
+    S('circle', {cx:x + jib * dir, cy:top + 2, r:2.4, fill:'#ff3b30', class:'crane-light', style:`animation-delay:-${i * .5}s`}, g);
+  }); })();
+(() => { const g = $('#reflect'); seed = 2; for (let i = 0; i < 40; i++){ const x = 890 + rnd() * 640, y = 466 + rnd() * 120; S('rect', {x, y, width:6 + rnd() * 24, height:1.6, fill:rnd() > .7 ? '#ff6a5a' : '#ffd27a', opacity:(.2 + rnd() * .5).toFixed(2)}, g); } })();
+(() => { const g = $('#spines'); seed = 13; const cols = ['#2b2b2b', '#8a2d24', '#c9a24c', '#e9e1cf', '#2d4a6b', '#4b6b3a', '#5a1a3a', '#b9461f', '#1b2a44', '#d9cfb8'];
+  [[124, 232], [240, 348], [356, 464]].forEach(([y0, y1], row) => {
+    S('rect', {x:50, y:y1, width:480, height:8, fill:'url(#brassH)', opacity:.7}, g);
+    let x = 56;
+    while (x < 524){
+      if (rnd() < .07 && x < 440){ const w = 92; S('rect', {x, y:y1 - 92, width:w, height:92, fill:cols[(rnd() * cols.length) | 0], transform:`rotate(${-4 + rnd() * 3} ${x} ${y1})`}, g);
+        S('circle', {cx:x + 46, cy:y1 - 46, r:24, fill:'none', stroke:'#f1e2b8', 'stroke-width':2, opacity:.6}, g); x += w + 4; continue; }
+      const w = 3 + rnd() * 5, h = (y1 - y0) - rnd() * 10;
+      S('rect', {x, y:y1 - h, width:w, height:h, fill:cols[(rnd() * cols.length) | 0]}, g);
+      x += w + .6;
+    }
+  }); })();
+(() => { const g = $('#planks'); const vpX = 800, yh = 330, F = 690 - yh;
+  for (let k = -40; k <= 40; k++){ const X = k * 0.12; S('path', {d:`M${vpX + X * F / 1} 690L${vpX + X * F / .55} 900`, stroke:'#120804', 'stroke-width':1.2, opacity:.8}, g); }
+  for (let Z = 1, i = 0; Z > .5; Z -= .045, i++){ const y = yh + F / Z; for (let k = -40; k <= 40; k++){ if ((k + i) % 2) continue; const X = k * .12; S('path', {d:`M${vpX + X * F / Z} ${y}L${vpX + (X + .12) * F / Z} ${y}`, stroke:'#120804', 'stroke-width':1}, g); } }
+  S('rect', {y:690, width:1600, height:210, fill:'#fff', opacity:.03}, g); })();
+(() => { const g = $('#rugDeco'); for (let i = 0; i < 9; i++){ const x = 420 + i * 95; S('path', {d:`M${x} 800l26 28-26 28-26-28z`, fill:'none', stroke:'#151515', 'stroke-width':2, opacity:.55}, g); S('circle', {cx:x, cy:828, r:4, fill:'#c9a24c', opacity:.7}, g); } })();
+(() => { const g = $('#tufts'); for (let r = 0; r < 3; r++) for (let c = 0; c < 11; c++){ const x = 960 + c * 38 + (r % 2) * 19, y = 566 + r * 28; if (x > 1350) continue; S('circle', {cx:x, cy:y, r:2.4, fill:'#2a080b'}, g);
+  S('path', {d:`M${x} ${y}l19 14M${x} ${y}l-19 14`, stroke:'#3a0b0f', 'stroke-width':1.2, opacity:.8}, g); } })();
+(() => { const g = $('#chessSq'); for (let r = 0; r < 4; r++) for (let c = 0; c < 8; c++){ if ((r + c) % 2) continue; const y = 782 + r * 6, x0 = 948 - r * 4.5 + c * (96 + r * 3.5) / 8; S('rect', {x:x0, y, width:(96 + r * 3.5) / 8, height:6, fill:'#5a3a22', opacity:.8}, g); } })();
+(() => { const g = $('#decanters');
+  [[1452, 616, '#b8732a'], [1490, 616, '#d9a24a'], [1530, 616, '#8a3a1a']].forEach(([x, y, c]) => {
+    S('path', {d:`M${x - 12} ${y}v-34q0-10 8-14v-10h8v10q8 4 8 14v34z`, fill:'#cfe3e6', opacity:.35, stroke:'#e9f4f6', 'stroke-width':1}, g);
+    S('rect', {x:x - 11, y:y - 24, width:22, height:23, fill:c, opacity:.8}, g);
+    S('rect', {x:x - 3, y:y - 66, width:6, height:8, fill:'#cfe3e6', opacity:.6}, g);
+  });
+  [[1456, 696], [1484, 696], [1512, 696]].forEach(([x, y]) => { S('path', {d:`M${x} ${y}v-18h18v18z`, fill:'#cfe3e6', opacity:.35, stroke:'#e9f4f6'}, g); });
+  S('path', {d:'M1540 696v-26h26v26z', fill:'url(#brass)'}, g); })();
+
+/* ---------- подписи к мелочам ---------- */
+const sceneEl = $('#scene');
+function hideCaps(){ sceneEl.querySelectorAll('.cap').forEach(c => { c.classList.remove('show'); setTimeout(() => c.remove(), 260); }); }
+function caption(el, text){
+  hideCaps();
+  const vb = sceneEl.getBoundingClientRect(), r = el.getBoundingClientRect();
+  const c = document.createElement('div'); c.className = 'cap'; c.textContent = text;
+  let x = (r.left + r.width / 2 - vb.left) / vb.width * 100; x = Math.max(16, Math.min(84, x));
+  const top = r.top - vb.top, below = top < vb.height * .3;
+  if (below) c.classList.add('below');
+  c.style.left = x + '%'; c.style.top = (below ? Math.min(r.bottom - vb.top, vb.height * .6) : top) + 'px';
+  sceneEl.appendChild(c); requestAnimationFrame(() => c.classList.add('show'));
+  clearTimeout(caption.t); caption.t = setTimeout(hideCaps, 5200);
+}
+document.addEventListener('click', e => { if (!e.target.closest('.egg')) hideCaps(); });
+document.querySelectorAll('#room .egg').forEach(el => {
+  const fire = e => {
+    e.stopPropagation();
+    const k = el.dataset.egg;
+    if (k === 'daisy'){ el.classList.add('up'); setTimeout(() => el.classList.remove('up'), 1600); }
+    if (el.dataset.open){ caption(el, D.eggs[k] || D.tags[el.dataset.open] || ''); setTimeout(() => go(el.dataset.open), 700); return; }
+    caption(el, D.eggs[k]);
+  };
+  el.addEventListener('click', fire);
+  el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); fire(e); } });
+});
+// ярлыки-подсказки на главных вещах (координаты в процентах сцены 1600×900)
+[['records', 18, 9], ['book', 50.5, 59], ['album', 71, 84], ['dossier', 42.5, 13]].forEach(([r, x, y]) => {
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'tag'; b.textContent = D.tags[r];
+  b.style.left = x + '%'; b.style.top = y + '%'; b.addEventListener('click', () => go(r)); sceneEl.appendChild(b);
+});
+
+/* ---------- пластинки ---------- */
+$('#hRec').textContent = D.recordsH; $('#subRec').textContent = D.recordsSub;
+const arts = [
+  c => `radial-gradient(circle at 70% 30%, ${c} 0 18%, transparent 18.5%), linear-gradient(160deg, transparent 55%, rgba(0,0,0,.25) 55%)`,
+  c => `repeating-linear-gradient(90deg, transparent 0 14%, ${c} 14% 16%), linear-gradient(transparent 60%, rgba(0,0,0,.2) 60%)`,
+  c => `conic-gradient(from 200deg at 30% 35%, ${c} 0 25%, transparent 25%)`,
+  c => `linear-gradient(135deg, transparent 40%, ${c} 40% 44%, transparent 44% 52%, ${c} 52% 54%, transparent 54%)`,
+  c => `radial-gradient(circle at 50% 38%, transparent 0 20%, ${c} 20% 22%, transparent 22% 30%, ${c} 30% 31%, transparent 31%)`,
+  c => `linear-gradient(${c} 0 0) 12% 18%/36% 36% no-repeat, linear-gradient(${c} 0 0) 58% 30%/22% 22% no-repeat`,
+  c => `radial-gradient(ellipse at 50% 120%, ${c} 0 45%, transparent 46%)`,
+  c => `linear-gradient(${c} 0 0) 0 46%/100% 8% no-repeat`
+];
+let playing = null;
+$('#recs').innerHTML = D.records.map((r, i) => `<button class="rec${r.secret ? ' secret' : ''}" type="button" data-i="${i}" style="--c1:${r.c1}; --c2:${r.c2}; --art:${arts[i % arts.length](r.c2)}; --lab:${r.c2}">
+  <div class="sl"><span class="vinyl"></span><span class="cover"><span class="lb"><span>${esc(r.artist)}</span><strong>${esc(r.title)}</strong></span></span><span class="badge">${D.playing}</span></div>
+  <div class="meta">${esc(r.artist)} · ${r.year}</div><div class="note">${esc(r.note)}</div></button>`).join('');
+$('#nowLbl').textContent = D.nowPlaying;
+let spin;
+document.querySelectorAll('.rec').forEach(b => b.addEventListener('click', () => {
+  const i = +b.dataset.i, on = playing !== i;
+  document.querySelectorAll('.rec').forEach(x => x.classList.toggle('on', on && x === b));
+  playing = on ? i : null;
+  const r = D.records[i];
+  $('#arm').classList.toggle('on', on); $('#powerLed').setAttribute('opacity', on ? 1 : 0);
+  $('#discLabel').setAttribute('fill', r.c2);
+  $('#now').classList.toggle('on', on); $('#nowTitle').textContent = `${r.artist} — ${r.title}`;
+  clearInterval(spin); if (on){ let a = 0; spin = setInterval(() => { a = (a + 12) % 360; $('#discShine').setAttribute('transform', `rotate(${(Math.sin(a * Math.PI / 180) * 4).toFixed(2)} 236 488)`); }, 60); }
+}));
+
+/* ---------- записная книжка ---------- */
+$('#hBook').textContent = D.bookH; $('#subBook').textContent = D.bookSub;
+const letters = Object.keys(D.book);
+$('#bookTabs').innerHTML = letters.map((l, i) => `<button type="button" role="tab" aria-selected="${i === 0}" data-l="${l}">${l}</button>`).join('');
+function showLetter(l){
+  document.querySelectorAll('#bookTabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.l === l));
+  $('#bookPage').innerHTML = `<div class="letter">${l}</div>` + D.book[l].map(e => `<div class="entry"><div class="n">${esc(e.name)}</div><div class="t${e.cross ? ' x' : ''}">${esc(e.tel)}</div><div class="p">${esc(e.note)}</div></div>`).join('');
+}
+document.querySelectorAll('#bookTabs button').forEach(b => b.addEventListener('click', () => showLetter(b.dataset.l)));
+showLetter(LANG === 'en' ? 'V' : 'В');
+
+/* ---------- фотоальбом ---------- */
+$('#hAlbum').textContent = D.albumH; $('#subAlbum').textContent = D.albumSub;
+$('#aPrev').textContent = D.prev; $('#aNext').textContent = D.next;
+const pages = D.album; let sp = 0; const perSpread = () => matchMedia('(max-width:760px)').matches ? 1 : 2;
+const noPh = `<span class="none"><svg viewBox="0 0 60 70"><circle cx="30" cy="24" r="13"/><path d="M6 70c2-18 12-26 24-26s22 8 24 26z"/></svg><b>${D.photoSoon}</b></span>`;
+function renderAlbum(){
+  const n = perSpread(), start = sp * n;
+  $('#spread').innerHTML = pages.slice(start, start + n).map((pg, k) => `<div class="apage">${pg.map((p, j) => `<figure class="ph" style="margin:0"><div class="fr${p.img ? ' tall' : ''}" style="--r:${((start + k + j) % 2 ? 1.5 : -1.2)}deg">${p.img ? `<img src="${esc(p.img)}" alt="">` : noPh}</div><figcaption class="c">${esc(p.cap)}</figcaption></figure>`).join('')}<span class="pn">${D.page} ${start + k + 1}</span></div>`).join('');
+  const total = Math.ceil(pages.length / n);
+  $('#aPrev').disabled = sp === 0; $('#aNext').disabled = sp >= total - 1; $('#aNum').textContent = `${sp + 1} / ${total}`;
+}
+$('#aPrev').addEventListener('click', () => { sp = Math.max(0, sp - 1); renderAlbum(); });
+$('#aNext').addEventListener('click', () => { sp++; renderAlbum(); });
+addEventListener('resize', () => { sp = 0; renderAlbum(); });
+renderAlbum();
+
+/* ---------- досье ---------- */
+$('#dossier').innerHTML = `<h2 id="hDos">${D.dossierH}</h2><p class="sub">${esc(D.dossierSub)}</p>
+  <div class="dgrid"><div class="pf"><img src="assets/npc/barinov.webp" alt=""><b>${LANG === 'en' ? 'Oleg Barinov' : 'Олег Баринов'}</b></div>
+  <dl class="fields">${D.fields.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl></div>
+  <h3>${D.looksH}</h3><p>${esc(D.looks)}</p>
+  <h3>${D.traitsH}</h3><div class="traits">${D.traits.map(([b, s]) => `<div><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join('')}</div>
+  <h3>${D.voiceH}</h3><p>${esc(D.voice)}</p><ul class="quotes">${D.quotes.map(q => `<li>«${esc(q)}»</li>`).join('')}</ul>
+  <div class="lh"><div><h3>${D.lovesH}</h3><ul>${D.loves.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div><div><h3>${D.hatesH}</h3><ul>${D.hates.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div></div>
+  <p class="soon">${esc(D.startsNote)}</p>`;
+if (LANG === 'en') document.querySelectorAll('.quotes li').forEach(li => li.textContent = li.textContent.replace(/^«/, '“').replace(/»$/, '”'));
+
+/* ---------- маршруты ---------- */
+function go(r){ location.hash = r === 'room' ? '#/' : '#/' + r; }
+document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => go(b.dataset.go)));
+document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => go('room')));
+document.querySelectorAll('.sheet').forEach(s => s.addEventListener('click', e => { if (e.target === s) go('room'); }));
+addEventListener('keydown', e => { if (e.key === 'Escape' && document.querySelector('.sheet.on')) go('room'); });
+function route(){
+  const r = (location.hash.replace(/^#\/?/, '') || 'room');
+  const cur = routes.includes(r) ? r : 'room';
+  document.querySelectorAll('.sheet').forEach(s => s.classList.toggle('on', s.id === 'sh-' + cur));
+  document.body.classList.toggle('sheet-on', cur !== 'room');
+  document.querySelectorAll('#nav a').forEach(a => { if (a.dataset.r === cur) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+  hideCaps();
+  const sh = document.getElementById('sh-' + cur); if (sh){ sh.scrollTop = 0; sh.querySelector('.close').focus({preventScroll:true}); }
+}
+addEventListener('hashchange', route); route();
+
+/* ---------- вход из подъезда: тётя Зина встречает ---------- */
+const fromDoor = /[?&]door\b/.test(location.search);
+if (fromDoor){
+  history.replaceState(null, '', location.pathname + location.hash);
+  const z = $('#zina'); z.querySelector('small').textContent = D.welcome[0]; z.querySelector('span').textContent = D.welcome[1];
+  setTimeout(() => z.classList.add('on'), 500); setTimeout(() => z.classList.remove('on'), 5200);
+}
+// на телефоне сразу показать середину комнаты
+const wrap = $('#sceneWrap'); if (wrap.scrollWidth > wrap.clientWidth) wrap.scrollLeft = (wrap.scrollWidth - wrap.clientWidth) * .45;
+})();
+</script>
+</body>
+</html>
