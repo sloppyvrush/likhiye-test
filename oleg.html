@@ -10,7 +10,7 @@
 <title>Квартира Баринова · Лихие · ТЕСТ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Poiret+One&family=PT+Mono&family=Ruslan+Display&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Neucha&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Poiret+One&family=PT+Mono&family=Ruslan+Display&display=swap" rel="stylesheet">
 <style>
 /* КВАРТИРА БАРИНОВА: пентхаус на Васильевском. Нарочно не как у Вити:
    тёмно-изумрудный лак, латунь, ар-деко, джаз и окна на порт. */
@@ -199,6 +199,36 @@ html[lang="en"] .rec.secret .sl::after{content:"DO NOT TOUCH"}
 .lh ul{margin:0; padding-left:20px; font-size:18px}
 .dossier .soon{margin-top:26px; padding:12px 16px; border:1px dashed #b88f3a; font-style:italic}
 
+/* письма из армии */
+#room .drawer .front{transition:transform .35s ease}
+#room .drawer .peek{opacity:0; transition:opacity .35s ease}
+#room .drawer:hover .front, #room .drawer:focus-visible .front{transform:translateY(10px)}
+#room .drawer:hover .peek, #room .drawer:focus-visible .peek{opacity:1}
+.bundle{display:grid; grid-template-columns:270px minmax(0,1fr); gap:22px; align-items:start; max-width:1040px; margin:0 auto}
+.lstack{list-style:none; margin:0; padding:14px; display:grid; gap:8px; background:#1a120c; border-radius:6px; box-shadow:inset 0 0 0 2px #3a2614, 0 20px 40px rgba(0,0,0,.5); position:sticky; top:84px; max-height:calc(100vh - 110px); overflow:auto}
+.lstack .twine{font:13px var(--mono); color:#b9a37a; text-align:center; padding:2px 0 6px}
+.lstack button{width:100%; display:grid; grid-template-columns:30px 1fr; gap:10px; align-items:center; text-align:left; padding:9px 10px; border:0; border-radius:3px; cursor:pointer; color:#2a2418; background:#e9dfc6; box-shadow:0 2px 0 rgba(0,0,0,.35); transition:transform .2s}
+.lstack button.v{background:#d8ccae}
+.lstack button:hover{transform:translateX(4px)}
+.lstack button[aria-current="true"]{background:#f7f0dc; transform:translateX(8px); box-shadow:0 0 0 2px var(--brass-hi), 0 2px 0 rgba(0,0,0,.35)}
+.lstack .ic{width:30px; height:22px; display:block}
+.lstack b{display:block; font:700 15px/1.15 var(--serif)}
+.lstack small{display:block; font:12px var(--mono); color:#6a5a3a}
+.lsheet{position:relative; padding:clamp(22px,4vw,46px) clamp(20px,4vw,52px) clamp(26px,4vw,44px); color:#1f2f6b; box-shadow:0 22px 44px rgba(0,0,0,.55); min-height:520px; animation:lin .45s ease}
+@keyframes lin{from{opacity:0; transform:translateY(14px) rotate(-.6deg)} to{opacity:1; transform:none}}
+.lsheet.oleg{background-color:#fbfaf4; background-image:linear-gradient(rgba(70,110,190,.22) 1px, transparent 1px), linear-gradient(90deg, rgba(70,110,190,.22) 1px, transparent 1px); background-size:22px 22px; font:500 clamp(22px,2.4vw,27px)/1.32 var(--hand)}
+.lsheet.oleg::before{content:""; position:absolute; top:0; bottom:0; right:clamp(22px,5vw,58px); width:2px; background:rgba(200,40,40,.45)}
+.lsheet.vitya{background:#efe5c9 repeating-linear-gradient(transparent 0 31px, rgba(90,80,60,.2) 31px 32px); color:#33302a; font:400 clamp(21px,2.2vw,25px)/1.28 'Neucha',var(--hand); transform:rotate(.4deg)}
+.lsheet.vitya::after{content:""; position:absolute; inset:0; background:linear-gradient(45deg, transparent 49.6%, rgba(0,0,0,.06) 50%, transparent 50.4%), linear-gradient(-45deg, transparent 49.6%, rgba(0,0,0,.05) 50%, transparent 50.4%); pointer-events:none}
+.lsheet .lhead{display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:flex-start; margin-bottom:12px}
+.lsheet .stamp{font:12px/1.25 var(--mono); color:#7a1c22; border:1.5px solid rgba(122,28,34,.6); padding:4px 7px; transform:rotate(-3deg); max-width:190px; text-transform:uppercase; letter-spacing:.04em}
+.lsheet .date{margin-left:auto; text-align:right}
+.lsheet p{margin:0 0 .55em}
+.lsheet .sign{text-align:right; margin-top:.6em}
+.lsheet .ps{margin-top:.8em}
+.lsheet .cross{text-decoration:line-through; text-decoration-color:currentColor; opacity:.8}
+.lpager{max-width:1040px; margin:14px auto 0}
+@media (max-width:760px){ .bundle{grid-template-columns:1fr} .lstack{position:static; max-height:none; grid-auto-flow:column; grid-auto-columns:minmax(150px,1fr); overflow-x:auto; padding:10px} .lstack .twine{display:none} .lstack button:hover,.lstack button[aria-current="true"]{transform:translateY(-3px)} .lsheet{min-height:0} }
 @media (max-width:900px){
   .rooms{grid-template-columns:repeat(2,minmax(0,1fr))}
   .recs{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -321,8 +351,22 @@ html[lang="en"] .rec.secret .sl::after{content:"DO NOT TOUCH"}
       <rect x="30" y="530" width="520" height="170" fill="url(#lacq)"/>
       <rect x="30" y="530" width="520" height="10" fill="#2a2a2c"/>
       <path d="M30 530h520" stroke="url(#brassH)" stroke-width="2"/>
-      <g fill="none" stroke="#3a3a3c" stroke-width="2"><rect x="50" y="556" width="150" height="124"/><rect x="215" y="556" width="150" height="124"/><rect x="380" y="556" width="150" height="124"/></g>
-      <g stroke="url(#brassH)" stroke-width="4" stroke-linecap="round"><path d="M110 618h30M275 618h30M440 618h30"/></g>
+      <g fill="none" stroke="#3a3a3c" stroke-width="2"><rect x="50" y="556" width="150" height="124"/><rect x="380" y="556" width="150" height="124"/></g>
+      <g stroke="url(#brassH)" stroke-width="4" stroke-linecap="round"><path d="M110 618h30M440 618h30"/></g>
+      <!-- средний ящик: письма -->
+      <g class="egg drawer" data-egg="drawer" data-open="letters" role="button" tabindex="0" aria-label="Ящик комода: письма">
+        <rect x="215" y="556" width="150" height="124" fill="#0a0a0b"/>
+        <g class="peek">
+          <path d="M226 562l26-4 36 3 30-5 34 4v10H226z" fill="#e9dfc6"/>
+          <path d="M232 560l22 8 22-8M300 559l24 8 20-8" stroke="#b9a988" stroke-width="1" fill="none"/>
+          <path d="M226 566h126" stroke="#8a6a3c" stroke-width="2"/>
+        </g>
+        <g class="front">
+          <rect x="215" y="556" width="150" height="124" fill="url(#lacq)" stroke="#3a3a3c" stroke-width="2"/>
+          <path d="M275 618h30" stroke="url(#brassH)" stroke-width="4" stroke-linecap="round"/>
+          <rect x="282" y="590" width="16" height="10" rx="1" fill="none" stroke="#c9a24c" stroke-width="1" opacity=".55"/>
+        </g>
+      </g>
       <rect x="30" y="696" width="520" height="8" fill="#000" opacity=".5"/>
       <g class="egg" data-egg="turntable" data-open="records" role="button" tabindex="0" aria-label="Проигрыватель">
         <rect x="140" y="490" width="230" height="40" rx="3" fill="#5a3a22"/>
@@ -486,6 +530,11 @@ html[lang="en"] .rec.secret .sl::after{content:"DO NOT TOUCH"}
     <div class="album"><div class="spread" id="spread"></div></div>
     <div class="apager"><button type="button" id="aPrev"></button><span id="aNum"></span><button type="button" id="aNext"></button></div>
   </section>
+  <section class="block" id="letters" aria-labelledby="hLet">
+    <h2 id="hLet"></h2><p class="sub" id="subLet"></p>
+    <div class="bundle"><ol class="lstack" id="lstack"></ol><article class="lsheet" id="lsheet" aria-live="polite"></article></div>
+    <div class="apager lpager"><button type="button" id="lPrev"></button><span id="lNum"></span><button type="button" id="lNext"></button></div>
+  </section>
   <section class="block" id="dossier-sec">
     <div class="dossier" id="dossier"></div>
   </section>
@@ -512,8 +561,8 @@ $('#backSw .long').textContent = D.nav.back; $('#backSw .short').textContent = D
 $('#langSw').textContent = D.nav.lang; $('#langSw').href = D.nav.langHref;
 $('#panHint').textContent = LANG === 'en' ? '← swipe the room sideways →' : '← комнату можно листать вбок →';
 $('#foot').innerHTML = (LANG === 'en' ? 'Likhiye · Oleg Barinov · the bot is in the works' : 'Лихие · Олег Баринов · бот в работе') + ` · <a href="${HALL}">${D.nav.back}</a>`;
-const routes = ['room', 'records', 'book', 'album', 'dossier'];
-const SHORT = LANG === 'en' ? {room:'Room', records:'Records', book:'Book', album:'Album', dossier:'File'} : {room:'Комната', records:'Пластинки', book:'Книжка', album:'Альбом', dossier:'Досье'};
+const routes = ['room', 'records', 'book', 'album'].concat(D.letters ? ['letters'] : [], ['dossier']);
+const SHORT = LANG === 'en' ? {room:'Room', records:'Records', book:'Book', album:'Album', letters:'Letters', dossier:'File'} : {room:'Комната', records:'Пластинки', book:'Книжка', album:'Альбом', letters:'Письма', dossier:'Досье'};
 $('#nav').innerHTML = routes.map(r => `<a href="#${r}" data-r="${r}"><span class="long">${D.nav[r]}</span><span class="short">${SHORT[r]}</span></a>`).join('');
 $('#rooms').innerHTML = D.cards.map(([r, h, p]) => `<button class="room-card" type="button" data-go="${r}"><i>→</i><b>${h}</b><span>${p}</span></button>`).join('');
 
@@ -592,7 +641,7 @@ document.querySelectorAll('#room .egg').forEach(el => {
   el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); fire(e); } });
 });
 // ярлыки-подсказки на главных вещах (координаты в процентах сцены 1600×900)
-[['records', 18, 9], ['book', 50.5, 59], ['album', 71, 84], ['dossier', 42.5, 13]].forEach(([r, x, y]) => {
+[['records', 18, 9], ['book', 50.5, 59], ['album', 71, 84], ['dossier', 42.5, 13]].concat(D.letters ? [['letters', 18.1, 70]] : []).forEach(([r, x, y]) => {
   const b = document.createElement('button'); b.type = 'button'; b.className = 'tag'; b.textContent = D.tags[r];
   b.style.left = x + '%'; b.style.top = y + '%'; b.addEventListener('click', () => go(r)); sceneEl.appendChild(b);
 });
@@ -653,6 +702,31 @@ $('#aNext').addEventListener('click', () => { sp++; renderAlbum(); });
 addEventListener('resize', () => { sp = 0; renderAlbum(); });
 renderAlbum();
 
+/* ---------- письма из армии ---------- */
+if (D.letters){
+  $('#hLet').textContent = D.lettersH; $('#subLet').textContent = D.lettersSub;
+  $('#lPrev').textContent = D.prev; $('#lNext').textContent = D.next;
+  const L = D.letters; let li = 0;
+  const icOleg = '<svg class="ic" viewBox="0 0 30 22"><rect x="1" y="1" width="28" height="20" rx="2" fill="#fbfaf4" stroke="#6a5a3a"/><path d="M1 2l14 10L29 2" fill="none" stroke="#6a5a3a"/><rect x="21" y="4" width="6" height="7" fill="#a8261f" opacity=".7"/></svg>';
+  const icVit = '<svg class="ic" viewBox="0 0 30 22"><path d="M2 3h26L15 20z" fill="#efe5c9" stroke="#6a5a3a"/><path d="M2 3l13 8 13-8" fill="none" stroke="#6a5a3a"/></svg>';
+  $('#lstack').innerHTML = `<li class="twine">${esc(D.lettersTwine)}</li>` + L.map((l, i) => `<li><button type="button" class="${l.from === 'vitya' ? 'v' : 'o'}" data-li="${i}">${l.from === 'vitya' ? icVit : icOleg}<span><b>${esc(l.from === 'vitya' ? D.fromVitya : D.fromOleg)}</b><small>${esc(l.short)}</small></span></button></li>`).join('');
+  const para = s => esc(s).replace(/~~(.+?)~~/g, '<span class="cross">$1</span>');
+  function showL(i, scroll){
+    li = Math.max(0, Math.min(L.length - 1, i)); const l = L[li];
+    document.querySelectorAll('#lstack button').forEach(b => b.setAttribute('aria-current', +b.dataset.li === li));
+    const sh = $('#lsheet'); sh.className = 'lsheet ' + l.from;
+    sh.innerHTML = `<div class="lhead">${l.stamp ? `<span class="stamp">${esc(l.stamp)}</span>` : ''}<span class="date">${esc(l.date)}</span></div>`
+      + l.text.split(/\n\s*\n/).map(p => `<p>${para(p)}</p>`).join('')
+      + `<p class="sign">${esc(l.sign)}</p>` + (l.ps ? l.ps.split(/\n\s*\n/).map(p => `<p class="ps">${para(p)}</p>`).join('') : '');
+    sh.style.animation = 'none'; sh.offsetWidth; sh.style.animation = '';
+    $('#lPrev').disabled = li === 0; $('#lNext').disabled = li === L.length - 1; $('#lNum').textContent = `${li + 1} / ${L.length}`;
+    if (scroll && matchMedia('(max-width:760px)').matches) sh.scrollIntoView({block:'start', behavior:'smooth'});
+  }
+  document.querySelectorAll('#lstack button').forEach(b => b.addEventListener('click', () => showL(+b.dataset.li, true)));
+  $('#lPrev').addEventListener('click', () => showL(li - 1, true)); $('#lNext').addEventListener('click', () => showL(li + 1, true));
+  showL(0);
+} else { $('#letters').remove(); document.querySelector('#room .drawer')?.removeAttribute('data-open'); }
+
 /* ---------- досье ---------- */
 $('#dossier').innerHTML = `<h2 id="hDos">${D.dossierH}</h2><p class="sub">${esc(D.dossierSub)}</p>
   <div class="dgrid"><div class="pf"><img src="assets/npc/barinov.webp" alt=""><b>${LANG === 'en' ? 'Oleg Barinov' : 'Олег Баринов'}</b></div>
@@ -669,7 +743,7 @@ const target = r => document.getElementById(r === 'room' ? 'sceneWrap' : r === '
 function go(r){ hideCaps(); target(r).scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'start'}); history.replaceState(null, '', r === 'room' ? location.pathname : '#' + r); }
 document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => go(b.dataset.go)));
 document.querySelectorAll('#nav a').forEach(a => a.addEventListener('click', e => { e.preventDefault(); go(a.dataset.r); }));
-const mark = r => document.querySelectorAll('#nav a').forEach(a => { if (a.dataset.r === r) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+const mark = r => document.querySelectorAll('#nav a').forEach(a => { if (a.dataset.r === r){ a.setAttribute('aria-current', 'page'); const n = $('#nav'); if (n.scrollWidth > n.clientWidth) n.scrollTo({left: a.offsetLeft - (n.clientWidth - a.offsetWidth) / 2, behavior: 'smooth'}); } else a.removeAttribute('aria-current'); });
 const io = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) mark(e.target.dataset.sec); }); }, {rootMargin:'-45% 0px -50% 0px'});
 routes.forEach(r => { const el = target(r); el.dataset.sec = r; io.observe(el); });
 mark('room');
