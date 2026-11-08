@@ -287,7 +287,7 @@ footer a{color:#d9c9a4}
     background:rgba(7,11,20,.7); border:1px solid rgba(231,214,176,.25); border-radius:30px; padding:4px; backdrop-filter:blur(6px)}
   .switch button{border:0; background:none; color:#cdbb92; padding:8px 14px; border-radius:24px; font:16px/1 var(--hand); white-space:nowrap}
   .switch button[aria-pressed="true"]{background:#e7d6b0; color:#1d2a52}
-  .plateL,.plateR{font-size:clamp(7px,1.6vh,12px)} .noteL{font-size:clamp(8px,1.7vh,14px)} .tagR{font-size:clamp(6px,1.2vh,10px)}
+  .plateL{font-size:clamp(7px,1.6vh,12px)} .plateR{font-size:clamp(6px,1.3vh,10px); letter-spacing:.05em} .noteL{font-size:clamp(8px,1.7vh,14px)} .tagR{font-size:clamp(6px,1.2vh,10px)}
 }
 @media (max-width:760px){
   .residents,.board{margin-top:40px}
@@ -411,9 +411,9 @@ const CONFIG = {
   },
   lamps:[{x:660, y:168, s:260, cls:'flicker'}, {x:890, y:250, s:340, cls:'soft'}, {x:982, y:420, s:150, cls:'soft'}, {x:1258, y:420, s:150, cls:'soft'}],
   people:[
-    {id:'lesha', side:'L', x:178, h:556, idle:'assets/main/lesha.webp', hover:null, d:'4.9s', sd:'12s', dl:'-1.3s', lean:'.8deg', bxu:-.05, bo:'64%'},
-    {id:'vitya', side:'L', x:372, h:572, idle:'assets/main/vitya.webp', hover:null, d:'5.4s', sd:'14s', dl:'-3s', lean:'1.2deg', bxu:.07, bo:'28%'},
-    {id:'oleg', side:'R', x:1438, h:584, idle:'assets/main/oleg-shadow.webp', hover:null, d:'5.1s', sd:'13s', dl:'-2.2s', lean:'-1deg', bxu:-.06, bo:'62%', shadowy:true}
+    {id:'lesha', side:'L', x:172, g:832, h:618, idle:'assets/main/lesha.webp', hover:null, d:'4.9s', sd:'12s', dl:'-1.3s', lean:'.8deg', bxu:-.05, bo:'64%'},
+    {id:'vitya', side:'L', x:372, g:836, h:636, idle:'assets/main/vitya.webp', hover:null, d:'5.4s', sd:'14s', dl:'-3s', lean:'1.2deg', bxu:.07, bo:'28%'},
+    {id:'oleg', side:'R', x:1432, g:822, h:604, idle:'assets/main/oleg.webp', hover:'assets/main/oleg-hover.webp', d:'5.1s', sd:'13s', dl:'-2.2s', lean:'-1deg', bxu:-.03, bo:'58%'}
   ],
   snaps:{L:440, R:1225}
 };
@@ -433,7 +433,7 @@ const T = {
     R:[
       [['oleg','Прошу, мадемуазель. Дверь, как видите, открыта.']],
       [['oleg','Сударыня, вы как раз к ужину. Тётя Зина, у нас гости!']],
-      [['oleg','Я пока в тени: бот ещё в работе. Но квартиру посмотреть можно.']],
+      [['oleg','Бот ещё в работе, но квартиру показать могу. Только Дейзи не будите.']],
       [['oleg','Не разувайтесь. Это вам не Стачек.']]
     ],
     cast:[
@@ -476,7 +476,7 @@ const T = {
     R:[
       [['oleg','After you, mademoiselle. The door, as you see, is open.']],
       [['oleg','Just in time for dinner, madam. Aunt Zina, we have guests!']],
-      [['oleg','I’m still in the shadows: the bot is in the works. But you can look around the flat.']],
+      [['oleg','The bot is still in the works, but I can show you the flat. Just don’t wake Daisy.']],
       [['oleg','Keep your shoes on. This isn’t Stachek.']]
     ],
     cast:[
@@ -669,7 +669,7 @@ CONFIG.people.forEach(p => {
   const f = document.createElement('figure');
   f.className = 'hero' + (p.hover ? ' has-hov' : '') + (p.shadowy ? ' shadowy' : '');
   f.dataset.side = p.side; f.dataset.who = p.id;
-  f.style.cssText = `--x:${pct(p.x, W)};--b:${pct(H - CONFIG.ground, H)};--h:${pct(p.h, H)};--d:${p.d};--sd:${p.sd};--dl:${p.dl};--lean:${p.lean};--bo:${p.bo}`;
+  f.style.cssText = `--x:${pct(p.x, W)};--b:${pct(H - (p.g || CONFIG.ground), H)};--h:${pct(p.h, H)};--d:${p.d};--sd:${p.sd};--dl:${p.dl};--lean:${p.lean};--bo:${p.bo}`;
   f.innerHTML = `<div class="fig"><div class="sway"><div class="breath"><div class="pose">
       <span class="gshadow"></span>
       <img class="idle" src="${p.idle}" alt="" draggable="false">
