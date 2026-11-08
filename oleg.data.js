@@ -16,7 +16,7 @@ ru:{
   where:'Васильевский остров · пентхаус · октябрь 1996',
   hint:'Хозяина нет, но тётя Зина разрешила посмотреть. Нажимайте на вещи.',
   welcome:['тётя Зина', 'Проходите. Только ничего не трогайте! Хотя трогайте, он всё равно не заметит.'],
-  nav:{room:'Гостиная', records:'Пластинки', book:'Записная книжка', album:'Фотоальбом', letters:'Письма', dossier:'Досье', back:'← Подъезд', backShort:'←', close:'← В гостиную', lang:'EN', langHref:'oleg.en.html'},
+  nav:{room:'Гостиная', records:'Пластинки', book:'Записная книжка', album:'Фотоальбом', letters:'Письма', dossier:'Досье', back:'← Все двери', backShort:'←', close:'← В гостиную', lang:'EN', langHref:'oleg.en.html'},
   tags:{records:'Пластинки', book:'Записная книжка', album:'Фотоальбом', letters:'Письма', dossier:'Досье'},
   cards:[
     ['records', 'Пластинки', 'Синатра, когда не спится. «Кино», когда никто не видит.'],
@@ -109,7 +109,7 @@ en:{
   where:'Vasilievsky Island · penthouse · October 1996',
   hint:'The owner is out, but Aunt Zina said you can look around. Click on things.',
   welcome:['Aunt Zina', 'Come in. Just don’t touch anything! Oh, touch it, he won’t notice anyway.'],
-  nav:{room:'Living room', records:'Records', book:'Address book', album:'Photo album', dossier:'File', back:'← Stairwell', backShort:'←', close:'← Back to the room', lang:'RU', langHref:'oleg.html'},
+  nav:{room:'Living room', records:'Records', book:'Address book', album:'Photo album', dossier:'File', back:'← All doors', backShort:'←', close:'← Back to the room', lang:'RU', langHref:'oleg.html'},
   tags:{records:'Records', book:'Address book', album:'Photo album', dossier:'File'},
   cards:[
     ['records', 'Records', 'Sinatra when he can’t sleep. Kino when nobody’s looking.'],
