@@ -108,6 +108,9 @@ body.splash-on{overflow:hidden}
 .fog.a{bottom:2%; height:22%; background:radial-gradient(ellipse 30% 60% at 30% 60%, rgba(150,160,180,.16), transparent 70%), radial-gradient(ellipse 25% 55% at 75% 50%, rgba(150,160,180,.12), transparent 70%); animation:drift 38s linear infinite alternate}
 .fog.b{bottom:12%; height:30%; background:radial-gradient(ellipse 35% 50% at 55% 60%, rgba(120,135,160,.10), transparent 70%); animation:drift 52s linear infinite alternate-reverse}
 @keyframes drift{from{transform:translateX(-8%)}to{transform:translateX(8%)}}
+.film{position:absolute; inset:0; z-index:4; pointer-events:none; opacity:.55; mix-blend-mode:multiply;
+  background:repeating-linear-gradient(0deg, rgba(0,0,0,.18) 0 1px, transparent 1px 3px)}
+.painted .bg{filter:saturate(.8) brightness(.92) contrast(.95)}
 .vignette{position:absolute; inset:0; pointer-events:none; z-index:8; background:radial-gradient(ellipse 80% 75% at 50% 55%, transparent 55%, rgba(0,0,0,.55))}
 
 /* заголовок поверх неба */
@@ -122,7 +125,7 @@ body.splash-on{overflow:hidden}
 .hint span{animation:hint 2.6s ease-in-out 2s infinite}
 
 /* ---------- двери ---------- */
-.door{position:absolute; z-index:4; left:var(--l); top:var(--t); width:var(--w); height:var(--h); display:block; text-decoration:none; color:inherit; cursor:pointer; border-radius:3px}
+.door{position:absolute; z-index:3; left:var(--l); top:var(--t); width:var(--w); height:var(--h); display:block; text-decoration:none; color:inherit; cursor:pointer; border-radius:3px}
 .door .under{position:absolute; left:4%; right:4%; bottom:-.4%; height:1.4%; border-radius:50%;
   background:radial-gradient(ellipse at center, rgba(255,205,130,.95), rgba(255,170,80,.4) 45%, transparent 75%); filter:blur(2px); opacity:.55; transition:opacity .5s ease}
 .door .spill{position:absolute; left:-30%; right:-30%; top:99%; height:24%;
@@ -359,6 +362,7 @@ footer a{color:#d9c9a4}
     <div class="scroller" id="scroller">
       <div class="stage" id="stage">
         <svg class="bg" id="bg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+        <div class="film" aria-hidden="true"></div>
         <canvas class="rain" id="rain" aria-hidden="true"></canvas>
         <div class="fog a" aria-hidden="true"></div>
         <div class="fog b" aria-hidden="true"></div>
@@ -403,7 +407,7 @@ const OLEG = LANG === 'en' ? 'oleg.en.html' : 'oleg.html';
    тогда SVG-заглушка не рисуется, а двери/таблички/свет встают по координатам ниже.
    hover: картинка второй позы (появляется при наведении на дверь). */
 const CONFIG = {
-  bgImage: null,
+  bgImage: 'assets/main/bg.webp',
   ground: 812,
   doors:{
     L:{x:545, y:215, w:230, h:597},
@@ -411,9 +415,9 @@ const CONFIG = {
   },
   lamps:[{x:660, y:168, s:260, cls:'flicker'}, {x:890, y:250, s:340, cls:'soft'}, {x:982, y:420, s:150, cls:'soft'}, {x:1258, y:420, s:150, cls:'soft'}],
   people:[
-    {id:'lesha', side:'L', x:172, g:832, h:618, idle:'assets/main/lesha.webp', hover:null, d:'4.9s', sd:'12s', dl:'-1.3s', lean:'.8deg', bxu:-.05, bo:'64%'},
-    {id:'vitya', side:'L', x:372, g:836, h:636, idle:'assets/main/vitya.webp', hover:null, d:'5.4s', sd:'14s', dl:'-3s', lean:'1.2deg', bxu:.07, bo:'28%'},
-    {id:'oleg', side:'R', x:1432, g:822, h:604, idle:'assets/main/oleg.webp', hover:'assets/main/oleg-hover.webp', d:'5.1s', sd:'13s', dl:'-2.2s', lean:'-1deg', bxu:-.03, bo:'58%'}
+    {id:'lesha', side:'L', x:180, g:832, h:612, idle:'assets/main/lesha.webp', hover:null, d:'4.9s', sd:'12s', dl:'-1.3s', lean:'.8deg', bxu:-.05, bo:'64%'},
+    {id:'vitya', side:'L', x:378, g:836, h:626, idle:'assets/main/vitya.webp', hover:null, d:'5.4s', sd:'14s', dl:'-3s', lean:'1.2deg', bxu:.07, bo:'28%'},
+    {id:'oleg', side:'R', x:1432, g:828, h:614, idle:'assets/main/oleg.webp', hover:'assets/main/oleg-hover.webp', d:'5.1s', sd:'13s', dl:'-2.2s', lean:'-1deg', bxu:-.03, bo:'58%'}
   ],
   snaps:{L:440, R:1225}
 };
@@ -534,6 +538,7 @@ function drawBg(){
     <filter id="fBlur3"><feGaussianBlur stdDeviation="3"/></filter>
     <filter id="fRough"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .35 0"/><feComposite in2="SourceGraphic" operator="in"/></filter>
   </defs>`;
+  if (!CONFIG.bgImage){
   S('rect', {width:1600, height:900, fill:'url(#gSky)'}, svg);
   S('circle', {cx:1235, cy:78, r:200, fill:'url(#gMoon)'}, svg);
   S('circle', {cx:1235, cy:78, r:22, fill:'#e6e2d0', opacity:.75}, svg);
@@ -571,6 +576,7 @@ function drawBg(){
   // земля, мокрый асфальт
   S('rect', {y:740, width:1600, height:160, fill:'url(#gGround)'}, svg);
   S('path', {d:'M0 742 L1600 742', stroke:'#2a2b33', 'stroke-width':2}, svg);
+  }
   const wet = S('g', {filter:'url(#fBlur3)'}, svg);
   [[660,824,150,6,.18],[1120,824,150,6,.16],[890,840,60,5,.22],[300,860,260,8,.06],[1430,870,220,7,.05]].forEach(([cx, cy, rx, ry, o]) => S('ellipse', {cx, cy, rx, ry, fill:'#ffcf8a', opacity:o}, wet));
   [[660,812,900],[1120,812,900],[890,812,900]].forEach(([cx, y1, y2]) => S('rect', {x:cx - 14, y:y1, width:28, height:y2 - y1, fill:'#ffbf70', opacity:.07}, wet));
@@ -648,8 +654,8 @@ function drawBg(){
 }
 
 /* ============ СЦЕНА ============ */
-if (CONFIG.bgImage){ const im = new Image(); im.className = 'bg-img'; im.alt = ''; im.src = CONFIG.bgImage; $('#bg').replaceWith(im); }
-else drawBg();
+if (CONFIG.bgImage){ const im = new Image(); im.className = 'bg-img'; im.alt = ''; im.src = CONFIG.bgImage; $('#bg').before(im); stage.classList.add('painted'); }
+drawBg();
 
 const W = 1600, H = 900;
 const doors = {};
