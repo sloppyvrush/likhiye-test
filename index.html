@@ -205,7 +205,7 @@ body.talking .top{opacity:.15}
   font:clamp(14px,1.25vw,19px)/1.25 var(--hand); opacity:0; transform:translate(-50%, 8px) scale(.85); transition:opacity .25s ease, transform .35s cubic-bezier(.3,1.5,.5,1); pointer-events:none}
 .bubble::after{content:""; position:absolute; left:var(--bo,30%); bottom:-9px; width:18px; height:18px; background:#f4ecd6; transform:translateX(-50%) rotate(45deg); border-radius:0 0 4px 0}
 .bubble b{display:block; font:700 .72em/1 var(--mono); letter-spacing:.12em; text-transform:uppercase; color:#a8261f; margin-bottom:5px}
-.bubble.show{opacity:1; transform:translate(-50%, 0) scale(1)}
+.bubble.show{opacity:1; transform:translate(-50%, var(--dy, 0px)) scale(1)}
 .bubble .t::after{content:"▍"; color:#a8261f; animation:caret .7s steps(1) infinite}
 .bubble .t.done::after{content:""}
 @keyframes caret{50%{opacity:0}}
@@ -219,8 +219,9 @@ body.talking .top{opacity:.15}
 .entering .flood{opacity:1}
 .entering .hero .fig{filter:brightness(.4)}
 
-/* переключатель на телефоне */
+/* переключатель и окно реплик на телефоне */
 .switch{display:none}
+.dlg{display:none}
 
 /* ================= ЖИЛЬЦЫ ================= */
 .residents{width:min(1240px, calc(100vw - 32px)); margin:56px auto 0}
@@ -293,6 +294,17 @@ footer a{color:#d9c9a4}
     background:rgba(7,11,20,.7); border:1px solid rgba(231,214,176,.25); border-radius:30px; padding:4px; backdrop-filter:blur(6px)}
   .switch button{border:0; background:none; color:#cdbb92; padding:8px 14px; border-radius:24px; font:16px/1 var(--hand); white-space:nowrap}
   .switch button[aria-pressed="true"]{background:#e7d6b0; color:#1d2a52}
+  .hero .bubble{display:none}
+  .dlg{display:block; position:absolute; z-index:17; left:10px; right:10px; top:calc(var(--H) - 112px); min-height:96px; padding:10px 14px 12px;
+    background:rgba(244,236,214,.96); color:#1f2a46; border-radius:12px; box-shadow:0 8px 22px rgba(0,0,0,.6); border:2px solid #c9a75a;
+    font:17px/1.25 var(--hand); animation:dlgIn .3s cubic-bezier(.3,1.4,.5,1)}
+  .dlg[hidden]{display:none}
+  .dlg b{display:block; font:700 11px/1 var(--mono); letter-spacing:.14em; text-transform:uppercase; color:#a8261f; margin-bottom:5px}
+  .dlg .t::after{content:"▍"; color:#a8261f; animation:caret .7s steps(1) infinite}
+  .dlg .t.done::after{content:""}
+  .dlg .go{position:absolute; right:10px; bottom:10px; padding:7px 14px; border-radius:20px; background:#a8261f; color:#fff3dc; font:15px/1 var(--hand); text-decoration:none}
+  .scene.talking .hint{visibility:hidden}
+  @keyframes dlgIn{from{opacity:0; transform:translateY(10px)}to{opacity:1; transform:none}}
   .plateL{font-size:clamp(6px,1.3vh,10px); width:56%} .noteL{font-size:clamp(7px,1.4vh,11px)} .plateR{font-size:clamp(6px,1.3vh,10px); letter-spacing:.05em} .tagR{font-size:clamp(6px,1.2vh,10px)}
 }
 @media (max-width:760px){
@@ -381,6 +393,7 @@ footer a{color:#d9c9a4}
       <button type="button" data-go="L" aria-pressed="true" data-t="swL">Громов</button>
       <button type="button" data-go="R" aria-pressed="false" data-t="swR">Баринов</button>
     </div>
+    <div class="dlg" id="dlg" hidden aria-live="polite"><b></b><span class="t"></span><a class="go" href="#"></a></div>
     <div class="flood" id="flood" aria-hidden="true"></div>
   </section>
 
@@ -418,11 +431,11 @@ const CONFIG = {
   },
   lamps:[{x:510, y:168, s:260, cls:'flicker'}, {x:975, y:238, s:300, cls:'soft'}, {x:1012, y:420, s:150, cls:'soft'}, {x:1288, y:420, s:150, cls:'soft'}],
   people:[
-    {id:'lesha', side:'L', x:205, g:832, h:612, idle:'assets/main/lesha.webp', hover:null, d:'4.9s', sd:'12s', dl:'-1.3s', lean:'.9deg', bxu:-.02, bo:'56%'},
-    {id:'vitya', side:'L', x:790, g:836, h:626, idle:'assets/main/vitya.webp', hover:null, flip:true, d:'5.4s', sd:'14s', dl:'-3s', lean:'-1.2deg', bxu:.02, bo:'42%'},
-    {id:'oleg', side:'R', x:1462, g:828, h:614, idle:'assets/main/oleg.webp', hover:'assets/main/oleg-hover.webp', d:'5.1s', sd:'13s', dl:'-2.2s', lean:'-1deg', bxu:-.03, bo:'58%'}
+    {id:'lesha', side:'L', x:268, g:832, h:612, idle:'assets/main/lesha.webp', hover:null, d:'4.9s', sd:'12s', dl:'-1.3s', lean:'.9deg', bxu:-.02, bo:'56%'},
+    {id:'vitya', side:'L', x:738, g:836, h:626, idle:'assets/main/vitya.webp', hover:null, flip:true, d:'5.4s', sd:'14s', dl:'-3s', lean:'-1.2deg', bxu:.02, bo:'42%'},
+    {id:'oleg', side:'R', x:1408, g:836, h:668, idle:'assets/main/oleg.webp', hover:'assets/main/oleg-hover.webp', d:'5.1s', sd:'13s', dl:'-2.2s', lean:'-1deg', bxu:-.03, bo:'58%'}
   ],
-  snaps:{L:495, R:1265}
+  snaps:{L:505, R:1240}
 };
 
 const T = {
@@ -695,6 +708,7 @@ CONFIG.people.forEach(p => {
 Object.entries(CONFIG.snaps).forEach(([side, x]) => { const s = document.createElement('span'); s.className = 'snap'; s.dataset.side = side; s.style.left = pct(x, W); stage.appendChild(s); });
 
 /* ---------- реплики ---------- */
+const MOB = matchMedia('(max-width:760px), (max-aspect-ratio:1/1)'), dlg = $('#dlg');
 let active = null, timers = [], offT = null; const lastPick = {L:-1, R:-1};
 const clearTimers = () => { timers.forEach(clearTimeout); timers = []; };
 function type(el, text){
@@ -713,9 +727,17 @@ function activate(side){
   Object.values(heroes).forEach(h => h.classList.toggle('act', h.dataset.side === side));
   const sets = T[side]; let k; do { k = Math.floor(Math.random() * sets.length); } while (sets.length > 1 && k === lastPick[side]); lastPick[side] = k;
   let delay = 120;
+  if (MOB.matches){
+    dlg.hidden = false; dlg.querySelector('.go').textContent = T.go; dlg.querySelector('.go').href = doors[side].href;
+    sets[k].forEach(([who, line]) => { timers.push(setTimeout(() => { dlg.querySelector('b').textContent = T.names[who]; type(dlg.querySelector('.t'), line); }, delay)); delay += 900 + line.length * 30; });
+    return;
+  }
   sets[k].forEach(([who, line]) => {
     timers.push(setTimeout(() => {
-      const b = heroes[who].querySelector('.bubble'); b.classList.add('show'); type(b.querySelector('.t'), line);
+      const h = heroes[who], b = h.querySelector('.bubble'), t = b.querySelector('.t');
+      b.style.removeProperty('--dy'); t.textContent = line;   // меряем с полным текстом, чтобы облачко не уехало за край
+      const top = h.offsetTop + b.offsetTop - 8; if (top < 0) b.style.setProperty('--dy', -top + 'px');
+      type(t, line); b.classList.add('show');
     }, delay));
     delay += 500 + line.length * 26;
   });
@@ -725,6 +747,7 @@ function deactivate(){
   stage.classList.remove('on'); scene.classList.remove('talking'); document.body.classList.remove('talking');
   Object.values(doors).forEach(d => d.classList.remove('act'));
   Object.values(heroes).forEach(h => { h.classList.remove('act'); h.querySelector('.bubble').classList.remove('show'); });
+  dlg.hidden = true;
 }
 const scheduleOff = () => { clearTimeout(offT); offT = setTimeout(deactivate, 260); };
 
@@ -754,7 +777,8 @@ Object.values(doors).forEach(a => {
     enter(side, a.href);
   });
 });
-document.addEventListener('click', e => { if (TOUCH && active && !e.target.closest('.door,.hero,.bubble,.switch')) deactivate(); });
+document.addEventListener('click', e => { if (TOUCH && active && !e.target.closest('.door,.hero,.bubble,.switch,.dlg')) deactivate(); });
+dlg.querySelector('.go').addEventListener('click', e => { e.preventDefault(); if (active) enter(active, doors[active].href); });
 stage.addEventListener('click', e => { const g = e.target.closest('.bubble .go'); if (g){ e.preventDefault(); enter(g.closest('.hero').dataset.side, g.href); } });
 addEventListener('pageshow', e => { if (e.persisted){ leaving = false; scene.classList.remove('entering'); deactivate(); } });
 
