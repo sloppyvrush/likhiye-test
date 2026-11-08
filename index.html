@@ -92,17 +92,18 @@ body.splash-on{overflow:hidden}
 .top .lang:hover{border-color:var(--amber); color:var(--cream)}
 
 /* ================= СЦЕНА ================= */
-.scene{--H:min(56.25vw, max(100svh, 560px)); position:relative; height:var(--H); overflow:hidden;
+.scene{--SH:max(100svh, 560px); --H:min(var(--SH), calc(100vw * 9 / 16)); --SW:calc(var(--H) * 16 / 9);
+  position:relative; height:var(--SH); overflow:hidden;
   background:linear-gradient(#070b14 0%, #142033 52%, #1b2230 62%, #101216 82%, #07080b 100%)}
 .scroller{position:absolute; inset:0; overflow-x:auto; overflow-y:hidden; scrollbar-width:none; scroll-snap-type:x mandatory; overscroll-behavior-x:contain}
 .scroller::-webkit-scrollbar{display:none}
-.stage{position:relative; height:100%; aspect-ratio:16/9; margin:0 auto; transform-origin:var(--ox,50%) var(--oy,60%);
+/* фон-картинка закрывает весь экран, а двери и герои всегда видны целиком и стоят внизу, на асфальте */
+.stage{position:absolute; width:var(--SW); height:var(--H); left:calc(50% - var(--SW) / 2); bottom:0; transform-origin:var(--ox,50%) var(--oy,60%);
   transition:transform 1s cubic-bezier(.6,0,.3,1), filter 1s ease}
 .stage .snap{position:absolute; top:0; width:1px; height:1px; scroll-snap-align:center}
 .bg{position:absolute; inset:0; width:100%; height:100%; display:block}
-.bg-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+.bg-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 70%}
 /* края сцены растворяются в фоне на широких экранах */
-@media (min-aspect-ratio:16/9){ .stage .bg,.stage .bg-img{-webkit-mask:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent)} }
 .rain{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:6; opacity:.55}
 .fog{position:absolute; left:-30%; right:-30%; pointer-events:none; z-index:7; filter:blur(18px)}
 .fog.a{bottom:2%; height:22%; background:radial-gradient(ellipse 30% 60% at 30% 60%, rgba(150,160,180,.16), transparent 70%), radial-gradient(ellipse 25% 55% at 75% 50%, rgba(150,160,180,.12), transparent 70%); animation:drift 38s linear infinite alternate}
@@ -118,11 +119,11 @@ body.splash-on{overflow:hidden}
 .scene.talking .lead{opacity:.12}
 .top{transition:opacity .4s ease}
 body.talking .top{opacity:.15}
-.lead h1{margin:0; font:400 clamp(36px,4.6vw,76px)/1 var(--display); letter-spacing:.07em; color:#efe1bd;
+.lead h1{margin:0; padding-left:.07em; font:400 clamp(36px,4.6vw,76px)/1 var(--display); letter-spacing:.07em; color:#efe1bd;
   text-shadow:0 3px 0 #000, 0 0 50px rgba(224,162,58,.25)}
 .lead h1 span{display:inline-block; animation:letter .8s cubic-bezier(.2,.7,.2,1) both}
-.lead .sub{margin:6px 0 0; font:italic clamp(15px,1.5vw,20px)/1.3 var(--serif); color:#cdbb92; letter-spacing:.08em; text-shadow:0 2px 6px #000; animation:fadeUp .8s ease .7s both}
-.hint{position:absolute; z-index:15; left:0; right:0; bottom:calc(14px + env(safe-area-inset-bottom)); text-align:center; pointer-events:none;
+.lead .sub{margin:6px 0 0; padding-left:.08em; font:italic clamp(15px,1.5vw,20px)/1.3 var(--serif); color:#cdbb92; letter-spacing:.08em; text-shadow:0 2px 6px #000; animation:fadeUp .8s ease .7s both}
+.hint{position:absolute; z-index:15; left:0; right:0; bottom:calc(4px + env(safe-area-inset-bottom)); text-align:center; pointer-events:none;
   font:clamp(17px,1.6vw,22px)/1.2 var(--script); color:#e8d3a2; text-shadow:0 2px 6px #000; animation:fadeUp .8s ease 1.2s both}
 .hint span{animation:hint 2.6s ease-in-out 2s infinite}
 
@@ -184,8 +185,10 @@ body.talking .top{opacity:.15}
 .hero.flip .pose{transform:scaleX(-1)}
 .hero img{height:100%; width:auto; max-width:none; transition:opacity .35s ease, transform .5s cubic-bezier(.3,1.4,.5,1)}
 .hero img.hov{position:absolute; left:50%; bottom:0; transform:translateX(-50%) translateY(1.5%); opacity:0}
-.hero .gshadow{position:absolute; left:50%; bottom:-1.2%; width:120%; height:5%; transform:translateX(-50%); border-radius:50%;
-  background:radial-gradient(ellipse at center, rgba(0,0,0,.65), transparent 70%); pointer-events:none}
+.hero .gshadow{position:absolute; left:50%; bottom:-2.2%; width:72%; height:5.5%; transform:translateX(-50%); border-radius:50%;
+  background:radial-gradient(ellipse at center, rgba(0,0,0,.85) 0 30%, rgba(0,0,0,.45) 55%, transparent 72%); pointer-events:none}
+/* отражение в мокром асфальте (Chrome, Safari) */
+.hero .pose{-webkit-box-reflect:below -2px linear-gradient(rgba(0,0,0,.3), rgba(0,0,0,.08) 12%, transparent 26%)}
 .hero.shadowy img{filter:drop-shadow(0 0 1px rgba(255,200,130,.55)) drop-shadow(-2px 0 6px rgba(255,190,110,.25))}
 .hero.shadowy .ember{position:absolute; left:var(--ex,50%); top:var(--ey,20%); width:7%; aspect-ratio:1; border-radius:50%; transform:translate(-50%,-50%);
   background:radial-gradient(circle, #ffd59a, #ff7a2a 40%, rgba(255,90,30,.0) 70%); animation:ember 3.4s ease-in-out infinite}
@@ -280,6 +283,7 @@ footer a{color:#d9c9a4}
 @media (max-width:760px), (max-aspect-ratio:1/1){
   .scene{--H:min(calc(100vw * 1.08), calc(100svh - 110px), 540px); height:calc(var(--H) + 64px); min-height:0}
   .scroller{bottom:64px}
+  .stage{position:relative; width:auto; height:100%; aspect-ratio:16/9; left:auto; bottom:auto; margin:0 auto}
   .scene::after{content:""; position:absolute; left:0; right:0; bottom:0; height:64px; background:#07080b}
   .top .nav{display:none}
   .lead{top:14px}
@@ -377,13 +381,13 @@ footer a{color:#d9c9a4}
     <div class="scroller" id="scroller">
       <div class="stage" id="stage">
         <svg class="bg" id="bg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
-        <div class="film" aria-hidden="true"></div>
-        <canvas class="rain" id="rain" aria-hidden="true"></canvas>
-        <div class="fog a" aria-hidden="true"></div>
-        <div class="fog b" aria-hidden="true"></div>
-        <div class="vignette" aria-hidden="true"></div>
       </div>
     </div>
+    <div class="film" aria-hidden="true"></div>
+    <canvas class="rain" id="rain" aria-hidden="true"></canvas>
+    <div class="fog a" aria-hidden="true"></div>
+    <div class="fog b" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
     <div class="lead">
       <h1 id="hMain" aria-label="Лихие"><span style="animation-delay:.1s">Л</span><span style="animation-delay:.2s">и</span><span style="animation-delay:.3s">х</span><span style="animation-delay:.4s">и</span><span style="animation-delay:.5s">е</span></h1>
       <p class="sub" data-t="sub">Петербург, 1996-й</p>
@@ -424,18 +428,19 @@ const OLEG = LANG === 'en' ? 'oleg.en.html' : 'oleg.html';
    hover: картинка второй позы (появляется при наведении на дверь). */
 const CONFIG = {
   bgImage: 'assets/main/bg.webp',
+  shift: -40,          // сдвиг дверей и стен по горизонтали, чтобы композиция стояла по центру
   ground: 812,
   doors:{
-    L:{x:395, y:215, w:230, h:597},
-    R:{x:1035, y:215, w:230, h:597}
+    L:{x:355, y:215, w:230, h:597},
+    R:{x:995, y:215, w:230, h:597}
   },
-  lamps:[{x:510, y:168, s:260, cls:'flicker'}, {x:975, y:238, s:300, cls:'soft'}, {x:1012, y:420, s:150, cls:'soft'}, {x:1288, y:420, s:150, cls:'soft'}],
+  lamps:[{x:470, y:168, s:260, cls:'flicker'}, {x:935, y:238, s:300, cls:'soft'}, {x:972, y:420, s:150, cls:'soft'}, {x:1248, y:420, s:150, cls:'soft'}],
   people:[
-    {id:'lesha', side:'L', x:268, g:832, h:612, idle:'assets/main/lesha.webp', hover:'assets/main/lesha-hover.webp', d:'4.9s', sd:'12s', dl:'-1.3s', lean:'.9deg', bxu:-.02, bo:'56%'},
-    {id:'vitya', side:'L', x:738, g:836, h:626, idle:'assets/main/vitya.webp', hover:'assets/main/vitya-hover.webp', flip:true, d:'5.4s', sd:'14s', dl:'-3s', lean:'-1.2deg', bxu:.02, bo:'42%'},
-    {id:'oleg', side:'R', x:1408, g:836, h:668, idle:'assets/main/oleg.webp', hover:'assets/main/oleg-hover.webp', d:'5.1s', sd:'13s', dl:'-2.2s', lean:'-1deg', bxu:-.03, bo:'58%'}
+    {id:'lesha', side:'L', x:228, g:842, h:612, idle:'assets/main/lesha.webp', hover:'assets/main/lesha-hover.webp', d:'4.9s', sd:'12s', dl:'-1.3s', lean:'.9deg', bxu:-.02, bo:'56%'},
+    {id:'vitya', side:'L', x:698, g:844, h:626, idle:'assets/main/vitya.webp', hover:'assets/main/vitya-hover.webp', flip:true, d:'5.4s', sd:'14s', dl:'-3s', lean:'-1.2deg', bxu:.02, bo:'42%'},
+    {id:'oleg', side:'R', x:1368, g:846, h:668, idle:'assets/main/oleg.webp', hover:'assets/main/oleg-hover.webp', d:'5.1s', sd:'13s', dl:'-2.2s', lean:'-1deg', bxu:-.03, bo:'58%'}
   ],
-  snaps:{L:505, R:1240}
+  snaps:{L:465, R:1200}
 };
 
 const T = {
@@ -593,12 +598,16 @@ function drawBg(){
   S('rect', {y:740, width:1600, height:160, fill:'url(#gGround)'}, svg);
   S('path', {d:'M0 742 L1600 742', stroke:'#2a2b33', 'stroke-width':2}, svg);
   }
-  const wet = S('g', {filter:'url(#fBlur3)'}, svg);
+  const PG = S('g', {transform:`translate(${CONFIG.shift} 0)`}, svg);   // двери, стены, фонарь
+  const wet = S('g', {filter:'url(#fBlur3)'}, PG);
   [[510,824,150,6,.18],[1150,824,150,6,.16],[925,840,60,5,.22],[300,860,260,8,.06],[1430,870,220,7,.05]].forEach(([cx, cy, rx, ry, o]) => S('ellipse', {cx, cy, rx, ry, fill:'#ffcf8a', opacity:o}, wet));
   [[510,812,900],[1150,812,900],[925,812,900]].forEach(([cx, y1, y2]) => S('rect', {x:cx - 14, y:y1, width:28, height:y2 - y1, fill:'#ffbf70', opacity:.07}, wet));
 
+  // тени стен на асфальте
+  const sh = S('g', {fill:'#000', filter:'url(#fBlur8)'}, PG);
+  [[510,818,230,14,.7],[1150,818,230,14,.7],[925,816,40,8,.6]].forEach(([cx, cy, rx, ry, o]) => S('ellipse', {cx, cy, rx, ry, opacity:o}, sh));
   /* --- фрагмент стены Громова: облезлая сталинка, коричнево-зелёная покраска --- */
-  const L = S('g', {transform:'translate(-150 0)'}, svg);
+  const L = S('g', {transform:'translate(-150 0)'}, PG);
   const lw = 'M470 812 L470 160 L492 150 L520 158 L560 140 L610 152 L650 132 L700 150 L742 138 L790 156 L828 146 L850 162 L850 812 Z';
   S('path', {d:lw, fill:'url(#gPlaster)'}, L);
   S('path', {d:'M470 812 L470 560 L850 560 L850 812 Z', fill:'url(#gPaint)'}, L);
@@ -629,7 +638,7 @@ function drawBg(){
   S('rect', {x:560, y:800, width:200, height:14, fill:'#2c2c28'}, L);
 
   /* --- фрагмент стены Баринова: евроремонт, камень, дубовая дверь, латунь --- */
-  const R = S('g', {transform:'translate(30 0)'}, svg);
+  const R = S('g', {transform:'translate(30 0)'}, PG);
   S('rect', {x:930, y:150, width:380, height:662, fill:'url(#gStone)'}, R);
   S('rect', {x:930, y:150, width:380, height:16, fill:'#4a4339'}, R);
   S('rect', {x:924, y:142, width:392, height:10, fill:'#5c5345'}, R);
@@ -660,7 +669,7 @@ function drawBg(){
   S('rect', {x:1020, y:800, width:200, height:3, fill:'#c9a75a', opacity:.6}, R);
 
   /* --- фонарь между дверьми --- */
-  const lp = S('g', {transform:'translate(35 0)'}, svg);
+  const lp = S('g', {transform:'translate(35 0)'}, PG);
   S('rect', {x:886, y:250, width:8, height:562, fill:'#0d0f13'}, lp);
   S('rect', {x:880, y:790, width:20, height:22, fill:'#0d0f13'}, lp);
   S('path', {d:'M890 250 q0 -30 30 -30 L940 220', stroke:'#0d0f13', 'stroke-width':6, fill:'none'}, lp);
@@ -670,7 +679,7 @@ function drawBg(){
 }
 
 /* ============ СЦЕНА ============ */
-if (CONFIG.bgImage){ const im = new Image(); im.className = 'bg-img'; im.alt = ''; im.src = CONFIG.bgImage; $('#bg').before(im); stage.classList.add('painted'); }
+if (CONFIG.bgImage){ const im = new Image(); im.className = 'bg-img'; im.alt = ''; im.src = CONFIG.bgImage; scene.prepend(im); stage.classList.add('painted'); }
 drawBg();
 
 const W = 1600, H = 900;
@@ -736,7 +745,7 @@ function activate(side){
     timers.push(setTimeout(() => {
       const h = heroes[who], b = h.querySelector('.bubble'), t = b.querySelector('.t');
       b.style.removeProperty('--dy'); t.textContent = line;   // меряем с полным текстом, чтобы облачко не уехало за край
-      const top = h.offsetTop + b.offsetTop - 8; if (top < 0) b.style.setProperty('--dy', -top + 'px');
+      const top = stage.offsetTop + h.offsetTop + b.offsetTop - 58; if (top < 0) b.style.setProperty('--dy', -top + 'px');
       type(t, line); b.classList.add('show');
     }, delay));
     delay += 500 + line.length * 26;
