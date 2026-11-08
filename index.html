@@ -116,6 +116,8 @@ body.splash-on{overflow:hidden}
 /* заголовок поверх неба */
 .lead{position:absolute; z-index:15; left:0; right:0; top:clamp(20px, 3.5%, 44px); text-align:center; pointer-events:none; padding:0 16px; transition:opacity .4s ease}
 .scene.talking .lead{opacity:.12}
+.top{transition:opacity .4s ease}
+body.talking .top{opacity:.15}
 .lead h1{margin:0; font:400 clamp(36px,4.6vw,76px)/1 var(--display); letter-spacing:.07em; color:#efe1bd;
   text-shadow:0 3px 0 #000, 0 0 50px rgba(224,162,58,.25)}
 .lead h1 span{display:inline-block; animation:letter .8s cubic-bezier(.2,.7,.2,1) both}
@@ -179,6 +181,7 @@ body.splash-on{overflow:hidden}
 .hero .sway{height:100%; transform-origin:50% 100%; animation:sway var(--sd,11s) ease-in-out var(--dl,0s) infinite alternate}
 @keyframes sway{from{transform:rotate(-.35deg)}to{transform:rotate(.35deg)}}
 .hero .pose{position:relative; height:100%}
+.hero.flip .pose{transform:scaleX(-1)}
 .hero img{height:100%; width:auto; max-width:none; transition:opacity .35s ease, transform .5s cubic-bezier(.3,1.4,.5,1)}
 .hero img.hov{position:absolute; left:50%; bottom:0; transform:translateX(-50%) translateY(1.5%); opacity:0}
 .hero .gshadow{position:absolute; left:50%; bottom:-1.2%; width:120%; height:5%; transform:translateX(-50%); border-radius:50%;
@@ -274,7 +277,7 @@ footer a{color:#d9c9a4}
 /* ================= ПЛАНШЕТ И ТЕЛЕФОН ================= */
 @media (max-width:1000px){ .cast{grid-template-columns:repeat(2,minmax(0,1fr))} .ads{grid-template-columns:repeat(2,minmax(0,1fr))} }
 @media (max-width:760px), (max-aspect-ratio:1/1){
-  .scene{--H:min(calc(100vw * 1.16), calc(100svh - 110px), 560px); height:calc(var(--H) + 64px); min-height:0}
+  .scene{--H:min(calc(100vw * 1.08), calc(100svh - 110px), 540px); height:calc(var(--H) + 64px); min-height:0}
   .scroller{bottom:64px}
   .scene::after{content:""; position:absolute; left:0; right:0; bottom:0; height:64px; background:#07080b}
   .top .nav{display:none}
@@ -283,14 +286,14 @@ footer a{color:#d9c9a4}
   .lead .sub{font-size:14px; margin-top:2px}
   .hint{bottom:auto; top:calc(var(--H) - 34px); font-size:16px}
   .bubble{max-width:160px; font-size:14px; padding:7px 10px 9px}
-  .hero[data-who="lesha"] .bubble{--bxu:.03 !important; --bo:40%}
-  .hero[data-who="vitya"] .bubble{--bxu:.09 !important; --bo:22%}
+  .hero[data-who="lesha"] .bubble{--bxu:.04 !important; --bo:36%}
+  .hero[data-who="vitya"] .bubble{--bxu:-.09 !important; --bo:78%}
   .bubble b{font-size:9px; margin-bottom:3px}
   .switch{display:flex; position:absolute; z-index:16; left:50%; bottom:10px; transform:translateX(-50%); gap:6px;
     background:rgba(7,11,20,.7); border:1px solid rgba(231,214,176,.25); border-radius:30px; padding:4px; backdrop-filter:blur(6px)}
   .switch button{border:0; background:none; color:#cdbb92; padding:8px 14px; border-radius:24px; font:16px/1 var(--hand); white-space:nowrap}
   .switch button[aria-pressed="true"]{background:#e7d6b0; color:#1d2a52}
-  .plateL{font-size:clamp(7px,1.6vh,12px)} .plateR{font-size:clamp(6px,1.3vh,10px); letter-spacing:.05em} .noteL{font-size:clamp(8px,1.7vh,14px)} .tagR{font-size:clamp(6px,1.2vh,10px)}
+  .plateL{font-size:clamp(6px,1.3vh,10px); width:56%} .noteL{font-size:clamp(7px,1.4vh,11px)} .plateR{font-size:clamp(6px,1.3vh,10px); letter-spacing:.05em} .tagR{font-size:clamp(6px,1.2vh,10px)}
 }
 @media (max-width:760px){
   .residents,.board{margin-top:40px}
@@ -410,16 +413,16 @@ const CONFIG = {
   bgImage: 'assets/main/bg.webp',
   ground: 812,
   doors:{
-    L:{x:545, y:215, w:230, h:597},
-    R:{x:1005, y:215, w:230, h:597}
+    L:{x:395, y:215, w:230, h:597},
+    R:{x:1035, y:215, w:230, h:597}
   },
-  lamps:[{x:660, y:168, s:260, cls:'flicker'}, {x:890, y:250, s:340, cls:'soft'}, {x:982, y:420, s:150, cls:'soft'}, {x:1258, y:420, s:150, cls:'soft'}],
+  lamps:[{x:510, y:168, s:260, cls:'flicker'}, {x:975, y:238, s:300, cls:'soft'}, {x:1012, y:420, s:150, cls:'soft'}, {x:1288, y:420, s:150, cls:'soft'}],
   people:[
-    {id:'lesha', side:'L', x:180, g:832, h:612, idle:'assets/main/lesha.webp', hover:null, d:'4.9s', sd:'12s', dl:'-1.3s', lean:'.8deg', bxu:-.05, bo:'64%'},
-    {id:'vitya', side:'L', x:378, g:836, h:626, idle:'assets/main/vitya.webp', hover:null, d:'5.4s', sd:'14s', dl:'-3s', lean:'1.2deg', bxu:.07, bo:'28%'},
-    {id:'oleg', side:'R', x:1432, g:828, h:614, idle:'assets/main/oleg.webp', hover:'assets/main/oleg-hover.webp', d:'5.1s', sd:'13s', dl:'-2.2s', lean:'-1deg', bxu:-.03, bo:'58%'}
+    {id:'lesha', side:'L', x:205, g:832, h:612, idle:'assets/main/lesha.webp', hover:null, d:'4.9s', sd:'12s', dl:'-1.3s', lean:'.9deg', bxu:-.02, bo:'56%'},
+    {id:'vitya', side:'L', x:790, g:836, h:626, idle:'assets/main/vitya.webp', hover:null, flip:true, d:'5.4s', sd:'14s', dl:'-3s', lean:'-1.2deg', bxu:.02, bo:'42%'},
+    {id:'oleg', side:'R', x:1462, g:828, h:614, idle:'assets/main/oleg.webp', hover:'assets/main/oleg-hover.webp', d:'5.1s', sd:'13s', dl:'-2.2s', lean:'-1deg', bxu:-.03, bo:'58%'}
   ],
-  snaps:{L:440, R:1225}
+  snaps:{L:495, R:1265}
 };
 
 const T = {
@@ -578,11 +581,11 @@ function drawBg(){
   S('path', {d:'M0 742 L1600 742', stroke:'#2a2b33', 'stroke-width':2}, svg);
   }
   const wet = S('g', {filter:'url(#fBlur3)'}, svg);
-  [[660,824,150,6,.18],[1120,824,150,6,.16],[890,840,60,5,.22],[300,860,260,8,.06],[1430,870,220,7,.05]].forEach(([cx, cy, rx, ry, o]) => S('ellipse', {cx, cy, rx, ry, fill:'#ffcf8a', opacity:o}, wet));
-  [[660,812,900],[1120,812,900],[890,812,900]].forEach(([cx, y1, y2]) => S('rect', {x:cx - 14, y:y1, width:28, height:y2 - y1, fill:'#ffbf70', opacity:.07}, wet));
+  [[510,824,150,6,.18],[1150,824,150,6,.16],[925,840,60,5,.22],[300,860,260,8,.06],[1430,870,220,7,.05]].forEach(([cx, cy, rx, ry, o]) => S('ellipse', {cx, cy, rx, ry, fill:'#ffcf8a', opacity:o}, wet));
+  [[510,812,900],[1150,812,900],[925,812,900]].forEach(([cx, y1, y2]) => S('rect', {x:cx - 14, y:y1, width:28, height:y2 - y1, fill:'#ffbf70', opacity:.07}, wet));
 
   /* --- фрагмент стены Громова: облезлая сталинка, коричнево-зелёная покраска --- */
-  const L = S('g', {}, svg);
+  const L = S('g', {transform:'translate(-150 0)'}, svg);
   const lw = 'M470 812 L470 160 L492 150 L520 158 L560 140 L610 152 L650 132 L700 150 L742 138 L790 156 L828 146 L850 162 L850 812 Z';
   S('path', {d:lw, fill:'url(#gPlaster)'}, L);
   S('path', {d:'M470 812 L470 560 L850 560 L850 812 Z', fill:'url(#gPaint)'}, L);
@@ -613,7 +616,7 @@ function drawBg(){
   S('rect', {x:560, y:800, width:200, height:14, fill:'#2c2c28'}, L);
 
   /* --- фрагмент стены Баринова: евроремонт, камень, дубовая дверь, латунь --- */
-  const R = S('g', {}, svg);
+  const R = S('g', {transform:'translate(30 0)'}, svg);
   S('rect', {x:930, y:150, width:380, height:662, fill:'url(#gStone)'}, R);
   S('rect', {x:930, y:150, width:380, height:16, fill:'#4a4339'}, R);
   S('rect', {x:924, y:142, width:392, height:10, fill:'#5c5345'}, R);
@@ -644,7 +647,7 @@ function drawBg(){
   S('rect', {x:1020, y:800, width:200, height:3, fill:'#c9a75a', opacity:.6}, R);
 
   /* --- фонарь между дверьми --- */
-  const lp = S('g', {}, svg);
+  const lp = S('g', {transform:'translate(35 0)'}, svg);
   S('rect', {x:886, y:250, width:8, height:562, fill:'#0d0f13'}, lp);
   S('rect', {x:880, y:790, width:20, height:22, fill:'#0d0f13'}, lp);
   S('path', {d:'M890 250 q0 -30 30 -30 L940 220', stroke:'#0d0f13', 'stroke-width':6, fill:'none'}, lp);
@@ -673,7 +676,7 @@ CONFIG.lamps.forEach(l => { const e = document.createElement('div'); e.className
 const heroes = {};
 CONFIG.people.forEach(p => {
   const f = document.createElement('figure');
-  f.className = 'hero' + (p.hover ? ' has-hov' : '') + (p.shadowy ? ' shadowy' : '');
+  f.className = 'hero' + (p.hover ? ' has-hov' : '') + (p.shadowy ? ' shadowy' : '') + (p.flip ? ' flip' : '');
   f.dataset.side = p.side; f.dataset.who = p.id;
   f.style.cssText = `--x:${pct(p.x, W)};--b:${pct(H - (p.g || CONFIG.ground), H)};--h:${pct(p.h, H)};--d:${p.d};--sd:${p.sd};--dl:${p.dl};--lean:${p.lean};--bo:${p.bo}`;
   f.innerHTML = `<div class="fig"><div class="sway"><div class="breath"><div class="pose">
@@ -705,7 +708,7 @@ function activate(side){
   if (active === side) return;
   deactivate(true);
   active = side;
-  stage.classList.add('on'); scene.classList.add('talking');
+  stage.classList.add('on'); scene.classList.add('talking'); document.body.classList.add('talking');
   doors[side].classList.add('act');
   Object.values(heroes).forEach(h => h.classList.toggle('act', h.dataset.side === side));
   const sets = T[side]; let k; do { k = Math.floor(Math.random() * sets.length); } while (sets.length > 1 && k === lastPick[side]); lastPick[side] = k;
@@ -719,7 +722,7 @@ function activate(side){
 }
 function deactivate(){
   clearTimers(); active = null;
-  stage.classList.remove('on'); scene.classList.remove('talking');
+  stage.classList.remove('on'); scene.classList.remove('talking'); document.body.classList.remove('talking');
   Object.values(doors).forEach(d => d.classList.remove('act'));
   Object.values(heroes).forEach(h => { h.classList.remove('act'); h.querySelector('.bubble').classList.remove('show'); });
 }
